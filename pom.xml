@@ -8,12 +8,14 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>sandbox ${project.version}</name>
+    <name>logs ${project.version}</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <logs.utils.version>0.0.1</logs.utils.version>
         <logs.api.version>0.0.1</logs.api.version>
+
+        <logs.resolve.version>0.0.1</logs.resolve.version>
     </properties>
 
     <build>
@@ -156,6 +158,7 @@
     <modules>
         <module>logs-api</module>
         <module>logs-utils</module>
+        <module>logs-resolve</module>
     </modules>
 
 
