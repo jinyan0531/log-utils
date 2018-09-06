@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <logs.utils.version>0.0.1</logs.utils.version>
         <logs.api.version>0.0.1</logs.api.version>
-
         <logs.resolve.version>0.0.1</logs.resolve.version>
     </properties>
 
