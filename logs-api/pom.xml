@@ -11,6 +11,12 @@
     <version>${logs.api.version}</version>
     <name>logs-api ${logs.api.version}</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+        </dependency>
 
+    </dependencies>
 
 </project>
