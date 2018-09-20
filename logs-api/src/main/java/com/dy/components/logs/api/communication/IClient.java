@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeoutException;
 
-public class IClient {
+public abstract class IClient {
     /**
      * 地址
      */
@@ -97,5 +97,5 @@ public class IClient {
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
     }
-    
+
 }
