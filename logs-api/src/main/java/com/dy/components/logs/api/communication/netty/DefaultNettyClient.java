@@ -16,4 +16,7 @@ public class DefaultNettyClient extends DefaultClient implements IClient {
     public void send(DefaultCollectLog defaultCollectLog) {
 
     }
+
+
+
 }
