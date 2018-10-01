@@ -151,7 +151,14 @@ public abstract class DefaultNettyRegedit implements IRegedit {
     }
 
     @ChannelHandler.Sharable
-    class MessageHandler extends ChannelInboundHandlerAdapter {
+    class MessageHandler<T extends DefaultCollectLog> extends ChannelInboundHandlerAdapter {
+
+        Class<? extends DefaultCollectLog> logClass;
+
+        public MessageHandler(Class<? extends DefaultCollectLog> clazz){
+                logClass = clazz;
+        }
+
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
