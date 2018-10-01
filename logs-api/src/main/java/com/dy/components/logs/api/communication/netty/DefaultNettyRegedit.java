@@ -69,7 +69,7 @@ public abstract class DefaultNettyRegedit implements IRegedit {
     private int nWorkers;
     final IdleStateCheckTrigger idleStateCheckTrigger = new IdleStateCheckTrigger();
     RegeditMeta regeditMeta;
-    private final MessageHandler handler = new MessageHandler();
+    private final MessageHandler handler = new MessageHandler(byteClazz);
     public RegeditMeta doRegedit(String host, int port,String serviceProviderName) {
         return doRegedit(host,port,serviceProviderName,null,null);
     }
