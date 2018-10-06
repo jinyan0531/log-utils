@@ -161,12 +161,21 @@ public abstract class DefaultNettyRegedit implements IRegedit {
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            logClass.cast(msg);
+
 
         }
 
+        /**
+         * 连接时创建进程第一个日志
+         * @param ctx
+         * @throws Exception
+         */
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
-
+            Object o =logClass.newInstance();
+            //o.setFirst(true);
+            //ctx.writeAndFlush()
         }
 
         @Override
@@ -175,4 +184,6 @@ public abstract class DefaultNettyRegedit implements IRegedit {
         }
 
     }
+
+
 }

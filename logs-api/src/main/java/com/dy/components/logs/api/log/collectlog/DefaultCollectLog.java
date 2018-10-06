@@ -1,10 +1,13 @@
 package com.dy.components.logs.api.log.collectlog;
 
+import com.dy.components.logs.api.log.AbstractLog;
+import com.dy.components.logs.api.log.ILog;
+
 /**
  * 采集日志父类
  * @author fufeijian newone1997@gmail.com
  */
-public class DefaultCollectLog {
+public class DefaultCollectLog extends AbstractLog implements ILog {
     /**
      * 唯一ID
      */
@@ -20,15 +23,26 @@ public class DefaultCollectLog {
      */
     LogId firstLogId;
 
+
+
+
     /**
      * 内容
      */
     String message;
 
     /**
-     * 是否已经完成
+     * 线程是否已经完成
      */
     boolean isCompleted;
+
+    /**
+     * 最后一个标记，进程完成
+     */
+    boolean isEnd;
+
+
+    boolean isFirst;
 
     /**
      * 类型
@@ -95,5 +109,35 @@ public class DefaultCollectLog {
 
     public void setLogType(String logType) {
         this.logType = logType;
+    }
+
+    public boolean isEnd() {
+        return isEnd;
+    }
+
+    public void setEnd(boolean end) {
+        isEnd = end;
+    }
+
+    public boolean isFirst() {
+        return isFirst;
+    }
+
+    public void setFirst(boolean first) {
+        isFirst = first;
+    }
+
+    @Override
+    public String toString() {
+        return "DefaultCollectLog{" +
+                "logId=" + logId +
+                ", parentLogId=" + parentLogId +
+                ", firstLogId=" + firstLogId +
+                ", message='" + message + '\'' +
+                ", isCompleted=" + isCompleted +
+                ", isEnd=" + isEnd +
+                ", isFirst=" + isFirst +
+                ", logType='" + logType + '\'' +
+                '}';
     }
 }
