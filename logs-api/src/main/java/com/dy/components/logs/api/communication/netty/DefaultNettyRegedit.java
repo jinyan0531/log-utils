@@ -4,6 +4,8 @@ import com.dy.components.logs.api.communication.IChannel;
 import com.dy.components.logs.api.communication.IRegedit;
 import com.dy.components.logs.api.communication.RegeditMeta;
 import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
+import com.dy.components.logs.api.protocol.CommuniObject;
+import com.dy.components.logs.api.protocol.ProtocolEnum;
 import com.dy.components.logs.utils.NamedThreadFactory;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -87,7 +89,7 @@ public abstract class DefaultNettyRegedit implements IRegedit {
 
     public void init(){
         ThreadFactory workerFactory = workerThreadFactory(dongyuConnector);
-        worker = new NioEventLoopGroup(3,workerFactory);
+        worker = new NioEventLoopGroup(2,workerFactory);
         bootstrap = new Bootstrap().group(worker);
     }
 
@@ -122,8 +124,8 @@ public abstract class DefaultNettyRegedit implements IRegedit {
                         this,
                         new IdleStateHandler(0, 4, 0, TimeUnit.SECONDS),
                         idleStateCheckTrigger,
-                        new ProtostuffDecoder(byteClazz),
-                        new ProtostuffEncoder(byteClazz),
+                        new ProtostuffDecoder(),
+                        new ProtostuffEncoder(),
                         handler
                 };
             }
@@ -161,21 +163,21 @@ public abstract class DefaultNettyRegedit implements IRegedit {
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            logClass.cast(msg);
-
 
         }
 
         /**
-         * 连接时创建进程第一个日志
+         * 连接时创建进程第一个日志,发送一条注册信息
          * @param ctx
          * @throws Exception
          */
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
-            Object o =logClass.newInstance();
-            //o.setFirst(true);
-            //ctx.writeAndFlush()
+
+            CommuniObject communiObject = new CommuniObject();
+            communiObject.setType(ProtocolEnum.REGEDIT.name());
+            communiObject.setLog(null);
+            ctx.writeAndFlush(communiObject);
         }
 
         @Override
