@@ -80,6 +80,7 @@ public abstract class DefaultNettyServer implements IRegeditServer {
         }
 
         public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+            
         }
 
         @Override

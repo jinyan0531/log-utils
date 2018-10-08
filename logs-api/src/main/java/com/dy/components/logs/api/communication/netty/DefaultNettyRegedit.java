@@ -1,18 +1,16 @@
 package com.dy.components.logs.api.communication.netty;
 
-import com.dy.components.logs.api.communication.IChannel;
 import com.dy.components.logs.api.communication.IRegedit;
 import com.dy.components.logs.api.communication.RegeditMeta;
 import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
-import com.dy.components.logs.api.protocol.CommuniObject;
+import com.dy.components.logs.api.protocol.ContentProtocol;
 import com.dy.components.logs.api.protocol.ProtocolEnum;
+import com.dy.components.logs.api.protocol.RegeditProtocol;
 import com.dy.components.logs.utils.NamedThreadFactory;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
@@ -174,9 +172,8 @@ public abstract class DefaultNettyRegedit implements IRegedit {
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-            CommuniObject communiObject = new CommuniObject();
-            communiObject.setType(ProtocolEnum.REGEDIT.name());
-            communiObject.setLog(null);
+            RegeditProtocol  communiObject = new RegeditProtocol();
+            communiObject.setType(ProtocolEnum.REGEDIT);
             ctx.writeAndFlush(communiObject);
         }
 

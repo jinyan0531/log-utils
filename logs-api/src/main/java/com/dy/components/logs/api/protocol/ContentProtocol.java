@@ -1,11 +1,12 @@
 package com.dy.components.logs.api.protocol;
 
+import com.dy.components.logs.api.communication.RegeditMeta;
 import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
 
 /**
  * 协议对象
  */
-public class CommuniObject {
+public class ContentProtocol{
 
     /**
      * 注册
@@ -25,16 +26,12 @@ public class CommuniObject {
      * DESTROY
      *
      */
-    String type;
+
     DefaultCollectLog log;
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+
+
 
     public DefaultCollectLog getLog() {
         return log;
@@ -42,5 +39,13 @@ public class CommuniObject {
 
     public void setLog(DefaultCollectLog log) {
         this.log = log;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ContentProtocol{" +
+                "log=" + log +
+                '}';
     }
 }

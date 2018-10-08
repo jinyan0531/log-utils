@@ -127,6 +127,7 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
         isFirst = first;
     }
 
+
     @Override
     public String toString() {
         return "DefaultCollectLog{" +
