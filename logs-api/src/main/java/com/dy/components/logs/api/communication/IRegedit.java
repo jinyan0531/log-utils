@@ -12,7 +12,7 @@ public interface IRegedit {
      * @param port
      */
 
-    RegeditMeta doRegedit(String host, int port);
+    RegisterMeta doRegedit(String host, int port);
     /**
      *
      * @param host

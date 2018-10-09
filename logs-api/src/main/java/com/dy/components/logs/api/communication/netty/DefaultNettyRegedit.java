@@ -5,6 +5,7 @@ import com.dy.components.logs.api.communication.RegisterMeta;
 import com.dy.components.logs.api.protocol.Message;
 import com.dy.components.logs.api.protocol.ProtocolEnum;
 import com.dy.components.logs.utils.NamedThreadFactory;
+import com.dy.components.logs.utils.SocketChannelProvider;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -44,7 +45,9 @@ public abstract class DefaultNettyRegedit implements IRegedit {
     public RegisterMeta doRegedit(String host, int port,String serviceProviderName) {
         return doRegedit(host,port,serviceProviderName,null,null);
     }
-
+    public RegisterMeta doRegedit(String host, int port) {
+        return doRegedit(host,port,null,null,null);
+    }
 
     public RegisterMeta doRegedit(String host, int port, String serviceProviderName, String group, String version) {
         regeditMeta = new RegisterMeta();
@@ -61,6 +64,8 @@ public abstract class DefaultNettyRegedit implements IRegedit {
         ThreadFactory workerFactory = workerThreadFactory(dongyuConnector);
         worker = new NioEventLoopGroup(nWorkers,workerFactory);
         bootstrap = new Bootstrap().group(worker);
+        bootstrap.channelFactory(SocketChannelProvider.JAVA_NIO_ACCEPTOR);
+
     }
 
 
@@ -83,7 +88,6 @@ public abstract class DefaultNettyRegedit implements IRegedit {
 
         final Bootstrap boot = bootstrap;
 
-        boot.group(worker).channel(NioSocketChannel.class).handler(new LoggingHandler(LogLevel.INFO));
 
 
         // 重连状态检测
@@ -91,7 +95,6 @@ public abstract class DefaultNettyRegedit implements IRegedit {
             @Override
             public ChannelHandler[] handlers() {
                 return new ChannelHandler[] {
-                        this,
                         new IdleStateHandler(0, 4, 0, TimeUnit.SECONDS),
                         idleStateCheckTrigger,
                         new ProtostuffDecoder(),
@@ -119,7 +122,7 @@ public abstract class DefaultNettyRegedit implements IRegedit {
             channel = future.channel();
             // 以下代码在synchronized同步块外面是安全的
             future.sync();
-        } catch (Throwable t) { }
+        } catch (Throwable t) { t.printStackTrace();}
     }
 
     @ChannelHandler.Sharable
@@ -140,7 +143,7 @@ public abstract class DefaultNettyRegedit implements IRegedit {
 
             Message communiObject = new Message();
             communiObject.setType(ProtocolEnum.REGEDIT);
-            ctx.writeAndFlush(communiObject);
+            ctx.writeAndFlush("sss");
         }
 
         @Override

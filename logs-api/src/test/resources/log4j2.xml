@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--设置log4j2的自身log级别为warn-->
+<configuration status="warn">
+
+
+    <Appenders>
+        <!-- 输出到控制台 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!-- 需要记录的级别 -->
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY" />
+            <!--
+            <PatternLayout charset="GB18030" pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n" />
+            -->
+            <PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n" />
+
+
+        </Console>
+
+        <!-- 输出错误日志到Kafka -->
+
+    </Appenders>
+
+
+    <loggers>
+        <logger name="org.springframework" level="INFO">
+        </logger>
+        <root level="all">
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+
+</configuration>

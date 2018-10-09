@@ -2,7 +2,9 @@ package com.dy.components.logs.api.protocol;
 
 import com.dy.components.logs.api.communication.RegisterMeta;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message  implements Serializable {
     ProtocolEnum type;
 
     RegisterMeta regeditMeta;

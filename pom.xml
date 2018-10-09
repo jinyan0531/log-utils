@@ -16,6 +16,7 @@
         <logs.api.version>0.0.1-SNAPSHOT</logs.api.version>
         <logs.resolve.version>0.0.1-SNAPSHOT</logs.resolve.version>
         <logs.collect.version>0.0.1-SNAPSHOT</logs.collect.version>
+        <log4j2.version>2.6.2</log4j2.version>
     </properties>
 
     <build>
@@ -59,7 +60,11 @@
                 <version>1.6.0</version>
                 <scope>test</scope>
             </dependency>
-
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>transport</artifactId>
+                <version>6.4.2</version>
+            </dependency>
             <dependency>
                 <groupId>io.protostuff</groupId>
                 <artifactId>protostuff-runtime</artifactId>
@@ -134,7 +139,22 @@
                 <artifactId>javax.annotation-api</artifactId>
                 <version>1.2</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
 
+            <dependency>     <!-- 桥接：告诉Slf4j使用Log4j2 -->
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

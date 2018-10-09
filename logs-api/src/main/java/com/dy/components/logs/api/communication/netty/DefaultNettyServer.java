@@ -5,6 +5,7 @@ import com.dy.components.logs.api.communication.RegisterMeta;
 import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
 import com.dy.components.logs.api.protocol.Message;
 import com.dy.components.logs.utils.ConcurrentSet;
+import com.dy.components.logs.utils.SocketChannelProvider;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
@@ -28,7 +29,7 @@ public abstract class DefaultNettyServer implements IRegeditServer {
 
     Logger logger = LoggerFactory.getLogger(DefaultCollectLog.class);
 
-    int port;
+    int port = 8086;
 
     private final MessageHandler handler = new MessageHandler();
 
@@ -62,13 +63,13 @@ public abstract class DefaultNettyServer implements IRegeditServer {
         worker = new NioEventLoopGroup(4, workerFactory);
 
         bootstrap = new ServerBootstrap().group(boss, worker);
+        bootstrap.channelFactory(SocketChannelProvider.JAVA_NIO_ACCEPTOR);
 
         bootstrap.childHandler(new ChannelInitializer<Channel>() {
 
             @Override
             protected void initChannel(Channel ch) throws Exception {
                 ch.pipeline().addLast(
-                        this,
                         new IdleStateHandler(0, 4, 0, TimeUnit.SECONDS),
                         idleStateCheckTrigger,
                         new ProtostuffDecoder(),
@@ -95,6 +96,7 @@ public abstract class DefaultNettyServer implements IRegeditServer {
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             Channel ch = ctx.channel();
 
+            System.out.println("fsdfffff");
 
 
             if(msg instanceof Message){
@@ -150,6 +152,7 @@ public abstract class DefaultNettyServer implements IRegeditServer {
             if (!ch.isWritable()) {
                 // 当前channel的缓冲区(OutboundBuffer)大小超过了WRITE_BUFFER_HIGH_WATER_MARK
                 if (logger.isWarnEnabled()) {
+                    System.out.println("{} is not writable, high water mask: {}, the number of flushed entries that are not written yet: {}.");
                     logger.warn("{} is not writable, high water mask: {}, the number of flushed entries that are not written yet: {}.",
                             ch, config.getWriteBufferHighWaterMark(), ch.unsafe().outboundBuffer().size());
                 }
@@ -157,6 +160,8 @@ public abstract class DefaultNettyServer implements IRegeditServer {
             } else {
                 // 曾经高于高水位线的OutboundBuffer现在已经低于WRITE_BUFFER_LOW_WATER_MARK了
                 if (logger.isWarnEnabled()) {
+                    System.out.println("{} is not writable, high water mask: {}, the number of flushed entries that are not written yet: {}.");
+
                     logger.warn("{} is writable(rehabilitate), low water mask: {}, the number of flushed entries that are not written yet: {}.",
                             ch, config.getWriteBufferLowWaterMark(), ch.unsafe().outboundBuffer().size());
                 }
