@@ -1,6 +1,6 @@
 package com.dy.components.logs.api.communication.netty;
 
-import com.dy.components.logs.api.protocol.MessageProtocol;
+import com.dy.components.logs.api.protocol.Message;
 import com.dy.components.logs.utils.ProtostuffUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,7 +25,7 @@ public class ProtostuffDecoder extends ByteToMessageDecoder {
         }
         byte[] data = new byte[dataLength];
         in.readBytes(data);
-        Object obj = ProtostuffUtil.deserializer(data, MessageProtocol.class);
+        Object obj = ProtostuffUtil.deserializer(data, Message.class);
         out.add(obj);
     }
 }

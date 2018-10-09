@@ -1,11 +1,11 @@
 package com.dy.components.logs.api.protocol;
 
-import com.dy.components.logs.api.communication.RegeditMeta;
+import com.dy.components.logs.api.communication.RegisterMeta;
 
-public class MessageProtocol {
+public class Message {
     ProtocolEnum type;
 
-    RegeditMeta regeditMeta;
+    RegisterMeta regeditMeta;
 
 
 
@@ -20,13 +20,7 @@ public class MessageProtocol {
         this.type = type;
     }
 
-    public RegeditMeta getRegeditMeta() {
-        return regeditMeta;
-    }
 
-    public void setRegeditMeta(RegeditMeta regeditMeta) {
-        this.regeditMeta = regeditMeta;
-    }
 
     public Content getContent() {
         return content;
@@ -36,9 +30,17 @@ public class MessageProtocol {
         this.content = content;
     }
 
+    public RegisterMeta getRegeditMeta() {
+        return regeditMeta;
+    }
+
+    public void setRegeditMeta(RegisterMeta regeditMeta) {
+        this.regeditMeta = regeditMeta;
+    }
+
     @Override
     public String toString() {
-        return "MessageProtocol{" +
+        return "Message{" +
                 "type=" + type +
                 ", regeditMeta=" + regeditMeta +
                 ", content=" + content +

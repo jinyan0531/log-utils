@@ -22,7 +22,7 @@ public interface IRegedit {
      * @param version
      * @return
      */
-    RegeditMeta doRegedit(String host, int port,String group,String serviceProviderName,String version);
+    RegisterMeta doRegedit(String host, int port, String group, String serviceProviderName, String version);
 
     /**
      * 创建Channel
