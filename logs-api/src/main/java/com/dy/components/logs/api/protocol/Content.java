@@ -6,7 +6,7 @@ import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
 /**
  * 协议对象
  */
-public class ContentProtocol{
+public class Content{
 
     /**
      * 注册
@@ -26,26 +26,23 @@ public class ContentProtocol{
      * DESTROY
      *
      */
+    String className;
 
-    DefaultCollectLog log;
+    String MessageJson;
 
-
-
-
-
-    public DefaultCollectLog getLog() {
-        return log;
+    public String getClassName() {
+        return className;
     }
 
-    public void setLog(DefaultCollectLog log) {
-        this.log = log;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
+    public String getMessageJson() {
+        return MessageJson;
+    }
 
-    @Override
-    public String toString() {
-        return "ContentProtocol{" +
-                "log=" + log +
-                '}';
+    public void setMessageJson(String messageJson) {
+        MessageJson = messageJson;
     }
 }

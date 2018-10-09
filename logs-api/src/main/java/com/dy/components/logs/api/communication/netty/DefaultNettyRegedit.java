@@ -3,9 +3,8 @@ package com.dy.components.logs.api.communication.netty;
 import com.dy.components.logs.api.communication.IRegedit;
 import com.dy.components.logs.api.communication.RegeditMeta;
 import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
-import com.dy.components.logs.api.protocol.ContentProtocol;
+import com.dy.components.logs.api.protocol.MessageProtocol;
 import com.dy.components.logs.api.protocol.ProtocolEnum;
-import com.dy.components.logs.api.protocol.RegeditProtocol;
 import com.dy.components.logs.utils.NamedThreadFactory;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -172,7 +171,7 @@ public abstract class DefaultNettyRegedit implements IRegedit {
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-            RegeditProtocol  communiObject = new RegeditProtocol();
+            MessageProtocol communiObject = new MessageProtocol();
             communiObject.setType(ProtocolEnum.REGEDIT);
             ctx.writeAndFlush(communiObject);
         }
