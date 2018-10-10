@@ -89,26 +89,26 @@ public abstract class DefaultNettyServer implements IRegeditServer {
     protected ThreadFactory bossThreadFactory(String name) {
         return new DefaultThreadFactory(name, Thread.MAX_PRIORITY);
     }
-
+    @ChannelHandler.Sharable
     class MessageHandler extends ChannelInboundHandlerAdapter {
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             Channel ch = ctx.channel();
-
-            System.out.println("fsdfffff");
-
-
             if(msg instanceof Message){
                 Message obj = (Message)msg;
                 switch (obj.getType()){
                     case REGEDIT:
+                        System.out.println(obj.getRegeditMeta().toString());
                         regeditLog(ch,obj.getRegeditMeta());
                         break;
                     case CONTENT:
-
+                        System.out.println(obj.toString());
+                        break;
                     case DESTROY:
                         unregeditLog(ch,obj.getRegeditMeta());
+                        break;
+                    case HEARTBEAT:
                         break;
                         default:
                 }

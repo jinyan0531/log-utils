@@ -20,5 +20,5 @@ public enum  ProtocolEnum {
      * DESTROY
      *
      */
-    REGEDIT,CONTENT,DESTROY
+    REGEDIT,CONTENT,DESTROY,HEARTBEAT
 }

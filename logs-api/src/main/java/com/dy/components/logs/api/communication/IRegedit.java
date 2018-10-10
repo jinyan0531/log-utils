@@ -28,7 +28,7 @@ public interface IRegedit {
      * 创建Channel
      * @return
      */
-     IChannel getChannel();
+    AbstractChannel getChannel();
 
 
     /**

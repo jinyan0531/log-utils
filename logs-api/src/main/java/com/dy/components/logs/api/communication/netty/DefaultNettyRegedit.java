@@ -1,5 +1,6 @@
 package com.dy.components.logs.api.communication.netty;
 
+import com.dy.components.logs.api.communication.AbstractChannel;
 import com.dy.components.logs.api.communication.IRegedit;
 import com.dy.components.logs.api.communication.RegisterMeta;
 import com.dy.components.logs.api.protocol.Message;
@@ -18,6 +19,8 @@ import io.netty.util.concurrent.DefaultThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +29,11 @@ public abstract class DefaultNettyRegedit implements IRegedit {
 
     Logger logger = LoggerFactory.getLogger(DefaultNettyRegedit.class);
 
+    int port= 0;
 
+    String ip = null;
+
+    String host = null;
 
 
     String dongyuConnector = "dongyu.connector";
@@ -42,32 +49,38 @@ public abstract class DefaultNettyRegedit implements IRegedit {
     final IdleStateCheckTrigger idleStateCheckTrigger = new IdleStateCheckTrigger();
     RegisterMeta regeditMeta;
     private final MessageHandler handler = new MessageHandler();
-    public RegisterMeta doRegedit(String host, int port,String serviceProviderName) {
-        return doRegedit(host,port,serviceProviderName,null,null);
+    public RegisterMeta doRegedit(String ip, int port,String serviceProviderName) {
+        return doRegedit(ip,port,serviceProviderName,null,null);
     }
-    public RegisterMeta doRegedit(String host, int port) {
-        return doRegedit(host,port,null,null,null);
+    public RegisterMeta doRegedit(String ip, int port) {
+        return doRegedit(ip,port,null,null,null);
     }
 
-    public RegisterMeta doRegedit(String host, int port, String serviceProviderName, String group, String version) {
+    public RegisterMeta doRegedit(String ip, int port, String serviceProviderName, String group, String version) {
+        this.ip = ip;
+        this.port = port;
+
+        InetAddress addr = null;
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        host = addr.getHostAddress().toString(); //获取本机ip
         regeditMeta = new RegisterMeta();
-
         regeditMeta.getServiceMeta().setGroup(group);
         regeditMeta.setHost(host);
-        regeditMeta.setPort(port);
         regeditMeta.setServiceProviderName(serviceProviderName);
         regeditMeta.setVersion(version);
         return regeditMeta;
     }
 
-    public void init(){
-        ThreadFactory workerFactory = workerThreadFactory(dongyuConnector);
-        worker = new NioEventLoopGroup(nWorkers,workerFactory);
-        bootstrap = new Bootstrap().group(worker);
-        bootstrap.channelFactory(SocketChannelProvider.JAVA_NIO_ACCEPTOR);
 
+
+    public AbstractChannel getChannel(){
+        NettyChannel nettyChannel = new NettyChannel(channel);
+        return nettyChannel;
     }
-
 
     protected ThreadFactory workerThreadFactory(String name) {
        return    new DefaultThreadFactory(name, Thread.MAX_PRIORITY);
@@ -81,6 +94,16 @@ public abstract class DefaultNettyRegedit implements IRegedit {
 
 
     public  void connect(){
+
+
+
+
+        EventLoopGroup group = new NioEventLoopGroup();
+        ThreadFactory workerFactory = workerThreadFactory(dongyuConnector);
+        worker = new NioEventLoopGroup(nWorkers,workerFactory);
+        bootstrap = new Bootstrap().group(worker);
+        bootstrap.channel(NioSocketChannel.class);
+
         if(regeditMeta==null){
             logger.error("出现异常");
             return;
@@ -91,7 +114,7 @@ public abstract class DefaultNettyRegedit implements IRegedit {
 
 
         // 重连状态检测
-        final IdleStateCheckHandler watchdog = new IdleStateCheckHandler(boot, timer, regeditMeta.getPort(),regeditMeta.getHost(), true) {
+        final IdleStateCheckHandler watchdog = new IdleStateCheckHandler(boot, timer, port,ip, true) {
             @Override
             public ChannelHandler[] handlers() {
                 return new ChannelHandler[] {
@@ -103,6 +126,7 @@ public abstract class DefaultNettyRegedit implements IRegedit {
                 };
             }
         };
+
 
 
         //进行连接
@@ -117,11 +141,12 @@ public abstract class DefaultNettyRegedit implements IRegedit {
                     }
                 });
 
-                future = boot.connect(regeditMeta.getHost(),regeditMeta.getPort());
+                future =  boot.remoteAddress(ip,port).connect();
             }
-            channel = future.channel();
             // 以下代码在synchronized同步块外面是安全的
             future.sync();
+            channel = future.channel();
+
         } catch (Throwable t) { t.printStackTrace();}
     }
 
@@ -142,8 +167,12 @@ public abstract class DefaultNettyRegedit implements IRegedit {
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
             Message communiObject = new Message();
+
+
             communiObject.setType(ProtocolEnum.REGEDIT);
-            ctx.writeAndFlush("sss");
+            regeditMeta.setHost(host);
+            communiObject.setRegeditMeta(regeditMeta);
+            ctx.writeAndFlush(communiObject);
         }
 
         @Override

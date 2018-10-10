@@ -1,23 +1,21 @@
 package com.dy.components.logs.api;
 
-import com.dy.components.logs.api.communication.IChannel;
-import com.dy.components.logs.api.communication.RegisterMeta;
+import com.dy.components.logs.api.communication.AbstractChannel;
 import com.dy.components.logs.api.communication.netty.DefaultNettyRegedit;
+import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
 
 public class Client extends DefaultNettyRegedit {
 
 
-    @Override
-    public IChannel getChannel() {
-        return null;
-    }
 
     public static void main(String[] s){
 
         Client client = new Client();
         client.doRegedit("127.0.0.1",12345);
-        client.init();
         client.connect();
+        AbstractChannel channel = client.getChannel();
+        DefaultCollectLog defaultCollectLog = new DefaultCollectLog("ssf",null,null,null);
+        channel.send(defaultCollectLog);
 
 
     }
