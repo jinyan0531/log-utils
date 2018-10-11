@@ -4,7 +4,7 @@ package com.dy.components.logs.api.communication;
  * 网络连接注册
  * @author fufeijian
  */
-public interface IRegedit {
+public interface IRegediter {
 
     /**
      * 初始化需要传入 host port
@@ -12,9 +12,8 @@ public interface IRegedit {
      * @param port
      */
 
-    RegisterMeta doRegedit(String host, int port);
+    void doRegedit(String host, int port,String user,String password);
     /**
-     *
      * @param host
      * @param port
      * @param group
@@ -22,7 +21,7 @@ public interface IRegedit {
      * @param version
      * @return
      */
-    RegisterMeta doRegedit(String host, int port, String group, String serviceProviderName, String version);
+    void doRegedit(String host, int port,String user,String password, String group, String serviceProviderName, String version);
 
     /**
      * 创建Channel
@@ -44,4 +43,5 @@ public interface IRegedit {
 
 
 
+    public RegisterMeta getRegisterMeta();
 }

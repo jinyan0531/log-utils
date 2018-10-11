@@ -1,7 +1,7 @@
 package com.dy.components.logs.api.communication.netty;
 
 import com.dy.components.logs.api.communication.AbstractChannel;
-import com.dy.components.logs.api.communication.IRegedit;
+import com.dy.components.logs.api.communication.IRegediter;
 import com.dy.components.logs.api.communication.RegisterMeta;
 import com.dy.components.logs.api.protocol.Message;
 import com.dy.components.logs.api.protocol.ProtocolEnum;
@@ -25,9 +25,9 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 
-public abstract class DefaultNettyRegedit implements IRegedit {
+public abstract class DefaultNettyRegediter implements IRegediter {
 
-    Logger logger = LoggerFactory.getLogger(DefaultNettyRegedit.class);
+    Logger logger = LoggerFactory.getLogger(DefaultNettyRegediter.class);
 
     int port= 0;
 
@@ -49,14 +49,14 @@ public abstract class DefaultNettyRegedit implements IRegedit {
     final IdleStateCheckTrigger idleStateCheckTrigger = new IdleStateCheckTrigger();
     RegisterMeta regeditMeta;
     private final MessageHandler handler = new MessageHandler();
-    public RegisterMeta doRegedit(String ip, int port,String serviceProviderName) {
-        return doRegedit(ip,port,serviceProviderName,null,null);
+    public void doRegedit(String ip, int port,String serviceProviderName) {
+         doRegedit(ip,port,serviceProviderName,null,null);
     }
-    public RegisterMeta doRegedit(String ip, int port) {
-        return doRegedit(ip,port,null,null,null);
+    public void doRegedit(String ip, int port,String user,String password) {
+         doRegedit(ip,port,null,null,null);
     }
 
-    public RegisterMeta doRegedit(String ip, int port, String serviceProviderName, String group, String version) {
+    public void doRegedit(String ip, int port, String serviceProviderName, String group, String version) {
         this.ip = ip;
         this.port = port;
 
@@ -72,7 +72,6 @@ public abstract class DefaultNettyRegedit implements IRegedit {
         regeditMeta.setHost(host);
         regeditMeta.setServiceProviderName(serviceProviderName);
         regeditMeta.setVersion(version);
-        return regeditMeta;
     }
 
 

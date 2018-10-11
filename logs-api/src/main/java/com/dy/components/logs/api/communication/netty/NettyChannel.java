@@ -17,14 +17,9 @@ public class NettyChannel extends AbstractChannel {
     }
 
     @Override
-    public void send(DefaultCollectLog defaultCollectLog) {
+    public void send(Message message) {
         if(channel!=null){
-            Message message = new Message();
-            Content content = new Content();
-            //content.setClassName(clazz.getName());
-            content.setMessageJson(JSON.toJSONString(defaultCollectLog));
-            message.setContent(content);
-            message.setType(ProtocolEnum.CONTENT);
+
             channel.writeAndFlush(message);
         }
     }
