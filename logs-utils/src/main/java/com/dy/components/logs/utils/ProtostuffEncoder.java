@@ -1,7 +1,5 @@
-package com.dy.components.logs.api.communication.netty;
+package com.dy.components.logs.utils;
 
-import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
-import com.dy.components.logs.utils.ProtostuffUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;

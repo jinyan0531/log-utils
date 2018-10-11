@@ -1,4 +1,4 @@
-package com.dy.components.logs.api.communication;
+package com.dy.components.logs.collect.server;
 
 import java.util.List;
 

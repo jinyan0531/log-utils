@@ -1,10 +1,12 @@
-package com.dy.components.logs.api.communication.netty;
+package com.dy.components.logs.collect.server.netty;
 
-import com.dy.components.logs.api.communication.IRegeditServer;
 import com.dy.components.logs.api.communication.RegisterMeta;
-import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
+import com.dy.components.logs.api.communication.netty.IdleStateCheckTrigger;
 import com.dy.components.logs.api.protocol.Message;
+import com.dy.components.logs.collect.server.IRegeditServer;
 import com.dy.components.logs.utils.ConcurrentSet;
+import com.dy.components.logs.utils.ProtostuffDecoder;
+import com.dy.components.logs.utils.ProtostuffEncoder;
 import com.dy.components.logs.utils.SocketChannelProvider;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -27,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class DefaultNettyServer implements IRegeditServer {
 
-    Logger logger = LoggerFactory.getLogger(DefaultCollectLog.class);
+    Logger logger = LoggerFactory.getLogger(DefaultNettyServer.class);
 
     int port = 8086;
 
@@ -72,7 +74,7 @@ public abstract class DefaultNettyServer implements IRegeditServer {
                 ch.pipeline().addLast(
                         new IdleStateHandler(0, 4, 0, TimeUnit.SECONDS),
                         idleStateCheckTrigger,
-                        new ProtostuffDecoder(),
+                        new ProtostuffDecoder(Message.class),
                         new ProtostuffEncoder(),
                         handler);
             }

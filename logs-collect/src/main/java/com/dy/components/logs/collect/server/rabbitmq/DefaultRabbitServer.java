@@ -1,8 +1,8 @@
-package com.dy.components.logs.api.communication.rabbitmq;
+package com.dy.components.logs.collect.server.rabbitmq;
 
 import com.dy.components.logs.api.communication.AbstractChannel;
-import com.dy.components.logs.api.communication.IRegeditServer;
 import com.dy.components.logs.api.protocol.Message;
+import com.dy.components.logs.collect.server.IRegeditServer;
 import com.dy.components.logs.utils.ProtostuffUtil;
 import com.rabbitmq.client.*;
 
@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public abstract class DefaultRabbitServer implements IRegeditServer{
+public abstract class DefaultRabbitServer implements IRegeditServer {
     ConnectionFactory factory = new ConnectionFactory();
 
     String host;

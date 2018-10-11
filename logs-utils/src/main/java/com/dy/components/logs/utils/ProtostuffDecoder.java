@@ -1,7 +1,5 @@
-package com.dy.components.logs.api.communication.netty;
+package com.dy.components.logs.utils;
 
-import com.dy.components.logs.api.protocol.Message;
-import com.dy.components.logs.utils.ProtostuffUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -9,6 +7,13 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import java.util.List;
 
 public class ProtostuffDecoder extends ByteToMessageDecoder {
+
+    //抽象
+    Class clazz;
+
+    public ProtostuffDecoder(Class clazz){
+        this.clazz = clazz;
+    }
 
     @Override
     public final void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
@@ -25,7 +30,7 @@ public class ProtostuffDecoder extends ByteToMessageDecoder {
         }
         byte[] data = new byte[dataLength];
         in.readBytes(data);
-        Object obj = ProtostuffUtil.deserializer(data, Message.class);
+        Object obj = ProtostuffUtil.deserializer(data, clazz);
         out.add(obj);
     }
 }
