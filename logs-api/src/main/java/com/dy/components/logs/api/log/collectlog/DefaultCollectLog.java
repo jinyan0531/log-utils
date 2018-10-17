@@ -31,6 +31,12 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
      */
     String message;
 
+
+    /**
+     * 内容Id 相同
+     */
+    long messageTempletId;
+
     /**
      * 线程是否已经完成
      */
@@ -50,13 +56,16 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
     String logType = "DefaultCollectLog";
 
 
-    public DefaultCollectLog(String message,LogId firstLogId,LogId parentLogId,LogId logId){
+    public DefaultCollectLog(String message,long messageTempletId,LogId firstLogId,LogId parentLogId,LogId logId){
         this.message = message;
         this.firstLogId = firstLogId;
         this.parentLogId = parentLogId;
         this.logId = logId;
         this.isCompleted = false;
+        this.messageTempletId = messageTempletId;
     }
+
+
 
 
     public void end(){
@@ -127,6 +136,13 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
         isFirst = first;
     }
 
+    public long getMessageTempletId() {
+        return messageTempletId;
+    }
+
+    public void setMessageTempletId(long messageTempletId) {
+        this.messageTempletId = messageTempletId;
+    }
 
     @Override
     public String toString() {
@@ -135,6 +151,7 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
                 ", parentLogId=" + parentLogId +
                 ", firstLogId=" + firstLogId +
                 ", message='" + message + '\'' +
+                ", messageTempletId=" + messageTempletId +
                 ", isCompleted=" + isCompleted +
                 ", isEnd=" + isEnd +
                 ", isFirst=" + isFirst +
