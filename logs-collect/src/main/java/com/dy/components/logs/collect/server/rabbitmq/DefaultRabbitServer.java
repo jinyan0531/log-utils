@@ -1,6 +1,5 @@
 package com.dy.components.logs.collect.server.rabbitmq;
 
-import com.dy.components.logs.api.communication.AbstractChannel;
 import com.dy.components.logs.api.protocol.Message;
 import com.dy.components.logs.collect.server.IRegeditServer;
 import com.dy.components.logs.utils.ProtostuffUtil;
@@ -52,7 +51,7 @@ public abstract class DefaultRabbitServer implements IRegeditServer {
         try {
             connection = factory.newConnection();
             channel = connection.createChannel();
-            channel.queueDeclare(AbstractChannel.DEFAULT_RABBIT_QUEUE, true, false, false, null);
+            channel.queueDeclare("DEFAULT_RABBIT_QUEUE", true, false, false, null);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,7 +86,7 @@ public abstract class DefaultRabbitServer implements IRegeditServer {
         @Override
         public void run() {
             try {
-                channel.basicConsume(AbstractChannel.DEFAULT_RABBIT_QUEUE, false, consumerHandler);
+                channel.basicConsume("DEFAULT_RABBIT_QUEUE", false, consumerHandler);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
