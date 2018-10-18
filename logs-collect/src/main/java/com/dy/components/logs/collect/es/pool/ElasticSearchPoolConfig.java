@@ -7,6 +7,7 @@ import java.util.Set;
 
 /**
  * @author : fufeijian
+ * @date : 2018/10/10
  */
 public class ElasticSearchPoolConfig extends GenericObjectPoolConfig {
 

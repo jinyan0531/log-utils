@@ -8,7 +8,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 /**
  * @author : fufeijian
- * @date : 2018/7/20
+ * @date : 2018/10/10
  * @description
  */
 public class Pool<T> implements Cloneable {

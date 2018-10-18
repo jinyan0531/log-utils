@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author : fufeijian
+ * @date : 2018/10/10
  */
 public class ElasticSearchClientFactory implements PooledObjectFactory<RestHighLevelClient> {
 

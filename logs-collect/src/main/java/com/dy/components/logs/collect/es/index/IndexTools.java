@@ -1,5 +1,5 @@
 package com.dy.components.logs.collect.es.index;
-import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
+import com.dy.components.logs.api.log.LogerBuilder;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
@@ -24,15 +24,18 @@ public class IndexTools{
     static final String defaultManagerIndexId = "100001";
 
 
-    static final String defaultManagerIndexIdType = "logmanager";
+    static final String defaultManagerIndexIdType = "log_manager";
+
+    static final String defaultLogSetIndex = "log_set_index";
+
+    static final String defaultLogSetIndexId = "100002";
+
 
     XContentBuilder builder;
-
-    AppendBuilder appenduilder;
-
-
+    LogerBuilder logerBuilder;
 
     public IndexTools(RestHighLevelClient client){
+
         this.client = client;
     }
 
@@ -41,78 +44,72 @@ public class IndexTools{
      * 创建管理 索引
      */
     public void ManagerIndexBuilder(){
-        ManagerIndexBuilder(null,null);
+        ManagerIndexBuilder(null);
     }
-    /**
-     * 创建管理 索引
-     */
-    public void ManagerIndexBuilder(AppendBuilder appenduilder){
 
-        ManagerIndexBuilder(null,appenduilder);
-
-    }
     /**
      * 创建管理 索引
      */
     public void ManagerIndexBuilder(XContentBuilder newBuilder){
 
-        ManagerIndexBuilder(newBuilder,null);
-
-    }
-    /**
-     * 创建管理 索引
-     */
-    public void ManagerIndexBuilder(XContentBuilder newBuilder,AppendBuilder appenduilder){
-
         this.builder = newBuilder;
-        this.appenduilder = appenduilder;
-        buildDefauletIndex();
+        buildDefauletManagerIndex();
 
     }
-
-
 
 
     /**
      * 创建日志索引
      */
-    public void LogIndexBuilder(AppendBuilder appenduilder){
-
-        this.appenduilder = appenduilder;
-        LogIndexBuilder(null,appenduilder);
-
+    public void LogIndexBuilder(LogerBuilder logerBuilder){
+        this.logerBuilder = logerBuilder;
+        LogIndexBuilder(logerBuilder);
     }
     /**
      * 创建日志索引
      */
-    public void LogIndexBuilder(XContentBuilder newBuilder){
-
-        this.builder = newBuilder;
-        LogIndexBuilder(newBuilder,null);
-
+    public void LogIndexBuilder(){
+        LogIndexBuilder(null);
     }
+
+
     /**
-     * 创建日志索引
+     * 创建索引
      */
-    public void LogIndexBuilder(XContentBuilder newBuilder,AppendBuilder appenduilder){
+    private void buildDefauletLogIndex(){
 
-        this.builder = newBuilder;
-        this.appenduilder = appenduilder;
+        if(logerBuilder!=null){
+            if(!checkIndexExist(defaultLogSetIndex,logerBuilder.getType())){
+                IndexRequest indexRequest = new IndexRequest(defaultManagerIndex, logerBuilder.getType(), String.valueOf(logerBuilder.getId()));
 
 
+
+                XContentBuilder builder =logerBuilder.builder();
+
+                indexRequest.source(builder);
+
+                try {
+                    this.client.index(indexRequest,RequestOptions.DEFAULT);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
+
+
+
+            }
+        }
 
     }
 
 
-
-    private void  buildDefauletIndex(){
+    private void  buildDefauletManagerIndex(){
         /**
          * 判断索引是否存在
          */
-        if(!checkIndexExist(defaultManagerIndex)){
+        if(!checkIndexExist(defaultManagerIndex,defaultManagerIndexIdType)){
 
             IndexRequest indexRequest = new IndexRequest(defaultManagerIndex, defaultManagerIndexIdType, defaultManagerIndexId);
-
 
             if(builder==null){
                 builder = DefaultBuilder.defaultManagerMapping();
@@ -131,9 +128,12 @@ public class IndexTools{
     }
 
 
-    public boolean checkIndexExist(String index) {
+    public boolean checkIndexExist(String index,String type) {
         GetIndexRequest request = new GetIndexRequest();
         request.indices(index);
+        if(type!=null){
+            request.types(type);
+        }
         request.local(false);
         request.humanReadable(true);
         try {
@@ -149,8 +149,6 @@ public class IndexTools{
 
     private static class DefaultBuilder{
 
-
-       final static String DEFAULT_LOG_TYPE="default_log";
 
         final static  String DEFAULT_MANAGER_TYPE = "default_manager";
 
@@ -213,134 +211,6 @@ public class IndexTools{
 
 
 
-        /**
-         * 构造通用日志索引
-         * @return
-         */
-        public static XContentBuilder  defaultLogMapping(AppendBuilder appenduilder){
-
-            try {
-                XContentBuilder builder = XContentFactory.jsonBuilder();
-                builder.startObject();
-                {
-
-                    builder.startObject(DEFAULT_LOG_TYPE);
-                    {
-                        builder.startObject("properties");
-                        {
-
-                            //属性
-                            builder.startObject("message");
-                            {
-                                builder.field("type", "keyword");
-                            }
-                            builder.endObject();
-
-                            //属性
-                            builder.startObject("messageTempletId");
-                            {
-                                builder.field("type", "long");
-                            }
-                            builder.endObject();
-
-                            //结束标记
-
-                            builder.startObject("isEnd");
-                            {
-                                builder.field("type", "boolean");
-                            }
-                            builder.endObject();
-
-                            //起始标记
-                            builder.startObject("isFirst");
-                            {
-                                builder.field("type", "boolean");
-                            }
-                            builder.endObject();
-
-                            //类型
-                            builder.startObject("logType");
-                            {
-                                builder.field("type", "keyword");
-                            }
-                            builder.endObject();
-
-                            builder.startObject("logId");
-                            {
-                                LoginIdBuild(builder);
-                            }
-
-                            builder.endObject();
-                            builder.startObject("parentLogId");
-                            {
-                                LoginIdBuild(builder);
-                            }
-
-                            builder.endObject();
-                            builder.startObject("firstLogId");
-                            {
-                                LoginIdBuild(builder);
-                            }
-
-                            builder.endObject();
-
-                            /**
-                             * 添加构建
-                             */
-                            if(appenduilder!=null){
-                                appenduilder.builder();
-                            }
-                        }
-                        builder.endObject();
-                    }
-                    builder.endObject();
-                }
-                builder.endObject();
-                return builder;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return  null;
-
-        }
-
-
-        private static XContentBuilder LoginIdBuild(XContentBuilder builder) throws IOException {
-
-            builder.field("type", "nested");
-            builder.startObject("properties");
-            {
-                //IP
-                builder.startObject("ip");
-                {
-                    builder.field("type", "keyword");
-                }
-                builder.endObject();
-                //地址名
-                builder.startObject("hostName");
-                {
-                    builder.field("type", "keyword");
-                }
-                builder.endObject();
-                //ID
-                builder.startObject("id");
-                {
-                    builder.field("type", "keyword");
-                }
-                builder.endObject();
-
-                //系统ID
-                builder.startObject("sysId");
-                {
-                    builder.field("type", "keyword");
-                }
-                builder.endObject();
-
-            }
-            builder.endObject();
-
-            return builder;
-        }
 
 
 
