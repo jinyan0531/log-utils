@@ -17,4 +17,6 @@ public abstract class AbstractLog implements ILog{
     public DefaultCollectLog readLogsFromBytes(byte[] bytes) {
         return null;
     }
+
+
 }

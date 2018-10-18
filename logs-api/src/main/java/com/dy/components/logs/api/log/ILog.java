@@ -1,6 +1,7 @@
 package com.dy.components.logs.api.log;
 
 import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 
 /**
  *
@@ -30,6 +31,6 @@ public interface ILog {
      */
     DefaultCollectLog readLogsFromBytes(byte[] bytes);
 
-
+    public XContentBuilder toXContentBuilder(XContentBuilder builder);
 
 }

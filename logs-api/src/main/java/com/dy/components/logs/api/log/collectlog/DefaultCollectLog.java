@@ -2,6 +2,7 @@ package com.dy.components.logs.api.log.collectlog;
 
 import com.dy.components.logs.api.log.AbstractLog;
 import com.dy.components.logs.api.log.ILog;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 
 /**
  * 采集日志父类
@@ -157,5 +158,9 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
                 ", isFirst=" + isFirst +
                 ", logType='" + logType + '\'' +
                 '}';
+    }
+
+    public XContentBuilder toXContentBuilder(XContentBuilder builder) {
+        return null;
     }
 }

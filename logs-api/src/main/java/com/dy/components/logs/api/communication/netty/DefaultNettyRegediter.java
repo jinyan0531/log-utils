@@ -6,6 +6,8 @@ import com.dy.components.logs.api.communication.RegisterMeta;
 import com.dy.components.logs.api.protocol.Message;
 import com.dy.components.logs.api.protocol.ProtocolEnum;
 import com.dy.components.logs.utils.NamedThreadFactory;
+import com.dy.components.logs.utils.ProtostuffDecoder;
+import com.dy.components.logs.utils.ProtostuffEncoder;
 import com.dy.components.logs.utils.SocketChannelProvider;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -119,7 +121,7 @@ public abstract class DefaultNettyRegediter implements IRegediter {
                 return new ChannelHandler[] {
                         new IdleStateHandler(0, 4, 0, TimeUnit.SECONDS),
                         idleStateCheckTrigger,
-                        new ProtostuffDecoder(),
+                        new ProtostuffDecoder(Message.class),
                         new ProtostuffEncoder(),
                         handler
                 };
