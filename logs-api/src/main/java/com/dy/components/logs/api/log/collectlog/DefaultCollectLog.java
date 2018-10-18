@@ -2,13 +2,17 @@ package com.dy.components.logs.api.log.collectlog;
 
 import com.dy.components.logs.api.log.AbstractLog;
 import com.dy.components.logs.api.log.ILog;
+import com.dy.components.logs.api.log.LogerBuilder;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+
+import java.io.IOException;
 
 /**
  * 采集日志父类
  * @author fufeijian newone1997@gmail.com
  */
 public class DefaultCollectLog extends AbstractLog implements ILog {
+    private static final long serialVersionUID = -4276291783328905418L;
     /**
      * 唯一ID
      */
@@ -160,7 +164,112 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
                 '}';
     }
 
-    public XContentBuilder toXContentBuilder(XContentBuilder builder) {
-        return null;
+    @Override
+    public LogerBuilder toXContentBuilder(XContentBuilder builder) {
+        LogerBuilder logerBuilder = new LogerBuilder(builder,this.getClass().getSimpleName(),serialVersionUID) {
+            @Override
+            public XContentBuilder builder() {
+
+                try {
+
+                    //属性
+                    builder.startObject("message");
+                    {
+                        builder.field("type", "keyword");
+                    }
+                    builder.endObject();
+
+                    //属性
+                    builder.startObject("messageTempletId");
+                    {
+                        builder.field("type", "long");
+                    }
+                    builder.endObject();
+
+                    //结束标记
+
+                    builder.startObject("isEnd");
+                    {
+                        builder.field("type", "boolean");
+                    }
+                    builder.endObject();
+
+                    //起始标记
+                    builder.startObject("isFirst");
+                    {
+                        builder.field("type", "boolean");
+                    }
+                    builder.endObject();
+
+                    //类型
+                    builder.startObject("logType");
+                    {
+                        builder.field("type", "keyword");
+                    }
+                    builder.endObject();
+
+                    builder.startObject("logId");
+                    {
+                        LoginIdBuild(builder);
+                    }
+
+                    builder.endObject();
+                    builder.startObject("parentLogId");
+                    {
+                        LoginIdBuild(builder);
+                    }
+
+                    builder.endObject();
+                    builder.startObject("firstLogId");
+                    {
+                        LoginIdBuild(builder);
+                    }
+
+                    builder.endObject();
+                    return builder;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+
+        return logerBuilder;
+    }
+
+
+    private   void LoginIdBuild(XContentBuilder builder) throws IOException {
+
+        //builder.field("type", "nested");
+        builder.startObject("properties");
+        {
+            //IP
+            builder.startObject("ip");
+            {
+                builder.field("type", "keyword");
+            }
+            builder.endObject();
+            //地址名
+            builder.startObject("hostName");
+            {
+                builder.field("type", "keyword");
+            }
+            builder.endObject();
+            //ID
+            builder.startObject("id");
+            {
+                builder.field("type", "keyword");
+            }
+            builder.endObject();
+
+            //系统ID
+            builder.startObject("sysId");
+            {
+                builder.field("type", "keyword");
+            }
+            builder.endObject();
+
+        }
+        builder.endObject();
     }
 }

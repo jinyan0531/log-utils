@@ -1,5 +1,6 @@
 package com.dy.components.logs.api.log.dy;
 
+import com.dy.components.logs.api.log.LogerBuilder;
 import com.dy.components.logs.api.log.collectlog.LogId;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
@@ -44,7 +45,7 @@ public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
                 '}';
     }
 
-    public XContentBuilder toXContentBuilder(XContentBuilder builder) {
+    public LogerBuilder toXContentBuilder(XContentBuilder builder) {
         return null;
     }
 }

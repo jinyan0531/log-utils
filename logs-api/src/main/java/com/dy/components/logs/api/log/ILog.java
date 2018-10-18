@@ -31,6 +31,6 @@ public interface ILog {
      */
     DefaultCollectLog readLogsFromBytes(byte[] bytes);
 
-    public XContentBuilder toXContentBuilder(XContentBuilder builder);
+    public LogerBuilder toXContentBuilder(XContentBuilder builder);
 
 }
