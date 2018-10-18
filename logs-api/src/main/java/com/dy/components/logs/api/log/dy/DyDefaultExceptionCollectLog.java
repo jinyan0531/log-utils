@@ -5,9 +5,12 @@ import com.dy.components.logs.api.log.collectlog.DefaultExceptionCollectLog;
 import com.dy.components.logs.api.log.collectlog.LogId;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class DyDefaultExceptionCollectLog extends DefaultExceptionCollectLog {
+    private static final long serialVersionUID = 6633710535999426236L;
+
     public DyDefaultExceptionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
         super(message, messageTempletId, firstLogId, parentLogId, logId);
     }
@@ -25,8 +28,8 @@ public class DyDefaultExceptionCollectLog extends DefaultExceptionCollectLog {
     public String toString() {
         return "DyDefaultExceptionCollectLog{" +
                 "version='" + version + '\'' +
-                ", params=" + getParams() +
-                ", stacks=" + Arrays.toString(getStacks()) +
+                ", params='" + getParams() + '\'' +
+                ", stacks='" + getStacks() + '\'' +
                 ", startTime=" + getStartTime() +
                 ", logId=" + getLogId() +
                 ", parentLogId=" + getParentLogId() +
@@ -41,6 +44,29 @@ public class DyDefaultExceptionCollectLog extends DefaultExceptionCollectLog {
     }
 
     public LogerBuilder toXContentBuilder(XContentBuilder builder) {
-        return null;
+
+
+        XContentBuilder supperBuilder  = super.toXContentBuilder(builder).builder();
+
+        LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID) {
+            @Override
+            public XContentBuilder builder() {
+
+                try {
+
+                    getBuilder().startObject("version");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
+                    return getBuilder();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+
+        return logerBuilder;
     }
 }

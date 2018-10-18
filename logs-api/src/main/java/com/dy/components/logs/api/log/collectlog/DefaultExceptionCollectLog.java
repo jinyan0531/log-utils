@@ -1,5 +1,9 @@
 package com.dy.components.logs.api.log.collectlog;
 
+import com.dy.components.logs.api.log.LogerBuilder;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -7,19 +11,21 @@ import java.util.Map;
  * @author fufeijian newone1997@gmail.com
  */
 public class DefaultExceptionCollectLog extends  DefaultCollectLog{
-    public DefaultExceptionCollectLog(String message,long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
+    private static final long serialVersionUID = 569930694337990552L;
+
+    public DefaultExceptionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
         super(message,messageTempletId, firstLogId, parentLogId, logId);
     }
 
     /**
      * 方法参数
      */
-    Map<String, Object> params;
+    String params;
 
     /**
      * 异常堆栈信息
      */
-    StackTraceElement[] stacks;
+    String stacks;
 
     /**
      * 日志时间
@@ -27,21 +33,23 @@ public class DefaultExceptionCollectLog extends  DefaultCollectLog{
     long startTime;
 
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
-
-    public Map<String, Object> getParams() {
+    public String getParams() {
         return params;
     }
 
-    public void setParams(Map<String, Object> params) {
+    public void setParams(String params) {
         this.params = params;
     }
 
-    public StackTraceElement[] getStacks() {
+    public String getStacks() {
         return stacks;
     }
 
-    public void setStacks(StackTraceElement[] stacks) {
+    public void setStacks(String stacks) {
         this.stacks = stacks;
     }
 
@@ -53,13 +61,11 @@ public class DefaultExceptionCollectLog extends  DefaultCollectLog{
         this.startTime = startTime;
     }
 
-
-
     @Override
     public String toString() {
         return "DefaultExceptionCollectLog{" +
-                "params=" + params +
-                ", stacks=" + Arrays.toString(stacks) +
+                "params='" + params + '\'' +
+                ", stacks='" + stacks + '\'' +
                 ", startTime=" + startTime +
                 ", logId=" + logId +
                 ", parentLogId=" + parentLogId +
@@ -70,6 +76,58 @@ public class DefaultExceptionCollectLog extends  DefaultCollectLog{
                 ", isEnd=" + isEnd +
                 ", isFirst=" + isFirst +
                 ", logType='" + logType + '\'' +
+                ", logId=" + getLogId() +
+                ", parentLogId=" + getParentLogId() +
+                ", firstLogId=" + getFirstLogId() +
+                ", message='" + getMessage() + '\'' +
+                ", completed=" + isCompleted() +
+                ", logType='" + getLogType() + '\'' +
+                ", end=" + isEnd() +
+                ", first=" + isFirst() +
+                ", messageTempletId=" + getMessageTempletId() +
                 '}';
+    }
+
+    public LogerBuilder toXContentBuilder(XContentBuilder builder){
+
+        XContentBuilder supperBuilder  = super.toXContentBuilder(builder).builder();
+
+        LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID) {
+            @Override
+            public XContentBuilder builder() {
+
+                try {
+
+                    getBuilder().startObject("parames");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
+
+
+                    getBuilder().startObject("stacks");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
+
+
+
+                    getBuilder().startObject("startTime");
+                    {
+                        getBuilder().field("type", "long");
+                    }
+                    getBuilder().endObject();
+
+
+                    return getBuilder();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+
+        return logerBuilder;
     }
 }

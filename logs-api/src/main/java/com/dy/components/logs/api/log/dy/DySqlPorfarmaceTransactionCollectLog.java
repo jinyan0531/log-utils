@@ -1,8 +1,14 @@
 package com.dy.components.logs.api.log.dy;
 
+import com.dy.components.logs.api.log.LogerBuilder;
 import com.dy.components.logs.api.log.collectlog.LogId;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+
+import java.io.IOException;
 
 public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransactionCollectLog{
+    private static final long serialVersionUID = 8432490857419296019L;
+
     public DySqlPorfarmaceTransactionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
         super(message, messageTempletId, firstLogId, parentLogId, logId);
     }
@@ -43,5 +49,30 @@ public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
     }
 
 
+    public LogerBuilder toXContentBuilder(XContentBuilder builder) {
 
+
+        XContentBuilder supperBuilder  = super.toXContentBuilder(builder).builder();
+
+        LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID) {
+            @Override
+            public XContentBuilder builder() {
+
+                try {
+
+                    getBuilder().startObject("sql");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
+                    return getBuilder();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+
+        return logerBuilder;
+    }
 }

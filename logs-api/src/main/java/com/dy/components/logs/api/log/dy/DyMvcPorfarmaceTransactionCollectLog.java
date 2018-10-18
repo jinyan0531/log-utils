@@ -4,7 +4,11 @@ import com.dy.components.logs.api.log.LogerBuilder;
 import com.dy.components.logs.api.log.collectlog.LogId;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
+import java.io.IOException;
+
 public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransactionCollectLog {
+    private static final long serialVersionUID = 3966511838728130280L;
+
     public DyMvcPorfarmaceTransactionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
         super(message, messageTempletId, firstLogId, parentLogId, logId);
     }
@@ -46,6 +50,34 @@ public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
     }
 
     public LogerBuilder toXContentBuilder(XContentBuilder builder) {
-        return null;
+
+
+        XContentBuilder supperBuilder  = super.toXContentBuilder(builder).builder();
+
+        LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID) {
+            @Override
+            public XContentBuilder builder() {
+
+                try {
+
+                    getBuilder().startObject("url");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
+                    getBuilder().startObject("endTime");
+                    {
+                        getBuilder().field("type", "long");
+                    }
+                    getBuilder().endObject();
+                    return getBuilder();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+
+        return logerBuilder;
     }
 }
