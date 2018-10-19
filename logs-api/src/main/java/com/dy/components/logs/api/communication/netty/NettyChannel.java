@@ -8,6 +8,8 @@ import com.dy.components.logs.api.protocol.Message;
 import com.dy.components.logs.api.protocol.ProtocolEnum;
 import io.netty.channel.Channel;
 
+import java.io.IOException;
+
 
 public class NettyChannel extends AbstractChannel {
     Channel channel;
@@ -22,5 +24,15 @@ public class NettyChannel extends AbstractChannel {
 
             channel.writeAndFlush(message);
         }
+    }
+
+    @Override
+    public boolean isOpen() {
+        return false;
+    }
+
+    @Override
+    public void close() throws IOException {
+
     }
 }

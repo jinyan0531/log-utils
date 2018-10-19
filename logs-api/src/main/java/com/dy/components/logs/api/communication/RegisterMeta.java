@@ -1,5 +1,7 @@
 package com.dy.components.logs.api.communication;
 
+import com.dy.components.logs.api.log.LogerBuilder;
+
 import java.util.Objects;
 
 
@@ -15,6 +17,16 @@ public class RegisterMeta {
     // 权重 hashCode() 与 equals() 不把weight计算在内
     private volatile int weight;
     private volatile int connCount;
+
+    private LogerBuilder logerBuilder;
+
+    public LogerBuilder getLogerBuilder() {
+        return logerBuilder;
+    }
+
+    public void setLogerBuilder(LogerBuilder logerBuilder) {
+        this.logerBuilder = logerBuilder;
+    }
 
     public String getHost() {
         return address.getHost();

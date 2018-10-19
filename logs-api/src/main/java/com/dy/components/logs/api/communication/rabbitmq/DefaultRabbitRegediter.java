@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public abstract   class DefaultRabbitRegediter implements IRegediter {
+public   class DefaultRabbitRegediter implements IRegediter {
 
     ConnectionFactory factory = new ConnectionFactory();
 
@@ -46,14 +46,12 @@ public abstract   class DefaultRabbitRegediter implements IRegediter {
         factory.setAutomaticRecoveryEnabled(true); //设置网络异常重连
         factory.setNetworkRecoveryInterval(2000);
         factory.setTopologyRecoveryEnabled(true);//设置重新声明交换器，队列等信息。
-
         registerMeta.setHost(host);
         registerMeta.setPort(port);
     }
 
     @Override
     public AbstractChannel getChannel() {
-        //channel = connection.createChannel();
         if(connection!=null){
             try {
                channel = connection.createChannel();

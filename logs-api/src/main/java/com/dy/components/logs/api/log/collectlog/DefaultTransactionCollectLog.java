@@ -24,6 +24,9 @@ public class DefaultTransactionCollectLog extends  DefaultCollectLog {
 
     List<DefaultCollectLog> childrenLogs;
 
+    public DefaultTransactionCollectLog() {
+    }
+
     public String getParames() {
         return parames;
     }
@@ -92,7 +95,7 @@ public class DefaultTransactionCollectLog extends  DefaultCollectLog {
 //
 //    }
 
-    public LogerBuilder toXContentBuilder(XContentBuilder builder){
+    public  LogerBuilder toXContentBuilder(XContentBuilder builder){
 
         XContentBuilder supperBuilder  = super.toXContentBuilder(builder).builder();
 

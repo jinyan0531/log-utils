@@ -3,7 +3,9 @@ package com.dy.components.logs.api.communication;
 import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
 import com.dy.components.logs.api.protocol.Message;
 
-public abstract class AbstractChannel {
+import java.nio.channels.Channel;
+
+public abstract class AbstractChannel implements Channel {
 
     /**
      * 发送日志

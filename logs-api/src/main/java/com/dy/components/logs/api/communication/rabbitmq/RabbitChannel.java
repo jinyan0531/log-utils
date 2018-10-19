@@ -27,4 +27,14 @@ public class RabbitChannel  extends AbstractChannel {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean isOpen() {
+        return false;
+    }
+
+    @Override
+    public void close() throws IOException {
+
+    }
 }

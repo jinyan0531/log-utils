@@ -1,5 +1,6 @@
 package com.dy.components.logs.api.protocol;
 
+import com.dy.components.logs.api.log.LogerBuilder;
 import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
 
 /**
@@ -7,22 +8,34 @@ import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
  */
 public class Content{
 
+    String type;
+
+    long indexId;
+
+    byte[] collectLog;
 
 
-    String MessageJson;
-
-    public String getMessageJson() {
-        return MessageJson;
+    public String getType() {
+        return type;
     }
 
-    public void setMessageJson(String messageJson) {
-        MessageJson = messageJson;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "Content{" +
-                "MessageJson='" + MessageJson + '\'' +
-                '}';
+    public long getIndexId() {
+        return indexId;
+    }
+
+    public void setIndexId(long indexId) {
+        this.indexId = indexId;
+    }
+
+    public byte[] getCollectLog() {
+        return collectLog;
+    }
+
+    public void setCollectLog(byte[] collectLog) {
+        this.collectLog = collectLog;
     }
 }

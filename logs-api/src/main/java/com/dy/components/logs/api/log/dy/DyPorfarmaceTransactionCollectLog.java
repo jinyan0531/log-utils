@@ -45,7 +45,7 @@ public class DyPorfarmaceTransactionCollectLog extends DefaulPorfarmaceTransacti
                 ", messageTempletId=" + getMessageTempletId() +
                 '}';
     }
-    public LogerBuilder toXContentBuilder(XContentBuilder builder) {
+    public  LogerBuilder toXContentBuilder(XContentBuilder builder) {
 
 
         XContentBuilder supperBuilder  = super.toXContentBuilder(builder).builder();

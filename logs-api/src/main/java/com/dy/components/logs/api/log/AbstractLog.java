@@ -24,55 +24,6 @@ public abstract class AbstractLog implements Serializable, ILog{
         return null;
     }
 
-    protected  static class DefaultBuilder{
 
-
-        /**
-         * 构造通用日志索引
-         * @return
-         */
-        public static XContentBuilder defaultLogMapping( XContentBuilder builder,LogerBuilder appenduilder){
-
-            try {
-                builder.startObject();
-                {
-
-                    builder.startObject(appenduilder.getType());
-                    {
-                        builder.startObject("properties");
-                        {
-
-                            defaultProperties(builder,appenduilder);
-
-                        }
-                        builder.endObject();
-                    }
-                    builder.endObject();
-                }
-                builder.endObject();
-                return builder;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return  null;
-
-        }
-
-        public static void defaultProperties(XContentBuilder builder,LogerBuilder appenduilder) throws IOException{
-
-
-
-            /**
-             * 添加构建
-             */
-            if(appenduilder!=null){
-                appenduilder.builder();
-            }
-
-        }
-
-
-
-    }
 
 }

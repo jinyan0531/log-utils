@@ -3,6 +3,7 @@ package com.dy.components.logs.api.log.dy;
 import com.dy.components.logs.api.log.LogerBuilder;
 import com.dy.components.logs.api.log.collectlog.LogId;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 
 import java.io.IOException;
 
@@ -49,10 +50,11 @@ public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
     }
 
 
-    public LogerBuilder toXContentBuilder(XContentBuilder builder) {
+    public  LogerBuilder toXContentBuilder(XContentBuilder builder) {
 
 
         XContentBuilder supperBuilder  = super.toXContentBuilder(builder).builder();
+
 
         LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID) {
             @Override

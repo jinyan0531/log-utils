@@ -4,6 +4,7 @@ import com.dy.components.logs.api.log.AbstractLog;
 import com.dy.components.logs.api.log.ILog;
 import com.dy.components.logs.api.log.LogerBuilder;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 
 import java.io.IOException;
 
@@ -70,6 +71,8 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
         this.messageTempletId = messageTempletId;
     }
 
+
+    public DefaultCollectLog(){}
 
 
 
@@ -162,6 +165,38 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
                 ", isFirst=" + isFirst +
                 ", logType='" + logType + '\'' +
                 '}';
+    }
+
+
+    public  XContentBuilder getXConBuilder(){
+        try {
+            XContentBuilder builder = XContentFactory.jsonBuilder();
+
+            LogerBuilder appenduilder = toXContentBuilder(builder);
+            builder.startObject();
+            {
+
+                builder.startObject(appenduilder.getType());
+                {
+                    builder.startObject("properties");
+                    {
+
+                        if(appenduilder!=null){
+                            appenduilder.builder();
+                        }
+
+                    }
+                    builder.endObject();
+                }
+                builder.endObject();
+            }
+            builder.endObject();
+            return builder;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  null;
+
     }
 
     @Override
