@@ -8,19 +8,18 @@ import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
  */
 public class Content{
 
-    String type;
+    String className;
 
     long indexId;
 
     byte[] collectLog;
 
-
-    public String getType() {
-        return type;
+    public String getClassName() {
+        return className;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public long getIndexId() {

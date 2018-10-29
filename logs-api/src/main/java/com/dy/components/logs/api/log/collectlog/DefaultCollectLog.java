@@ -175,7 +175,6 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
             LogerBuilder appenduilder = toXContentBuilder(builder);
             builder.startObject();
             {
-
                 builder.startObject(appenduilder.getType());
                 {
                     builder.startObject("properties");

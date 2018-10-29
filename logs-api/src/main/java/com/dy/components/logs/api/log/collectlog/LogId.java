@@ -55,4 +55,14 @@ public class LogId {
     public void setSysId(String sysId) {
         this.sysId = sysId;
     }
+
+    @Override
+    public String toString() {
+        return "LogId{" +
+                "ip='" + ip + '\'' +
+                ", hostName='" + hostName + '\'' +
+                ", id='" + id + '\'' +
+                ", sysId='" + sysId + '\'' +
+                '}';
+    }
 }

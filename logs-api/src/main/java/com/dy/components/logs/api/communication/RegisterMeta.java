@@ -1,6 +1,7 @@
 package com.dy.components.logs.api.communication;
 
 import com.dy.components.logs.api.log.LogerBuilder;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 
 import java.util.Objects;
 
@@ -18,15 +19,18 @@ public class RegisterMeta {
     private volatile int weight;
     private volatile int connCount;
 
-    private LogerBuilder logerBuilder;
 
-    public LogerBuilder getLogerBuilder() {
-        return logerBuilder;
+
+
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public void setLogerBuilder(LogerBuilder logerBuilder) {
-        this.logerBuilder = logerBuilder;
+    public void setServiceMeta(ServiceMeta serviceMeta) {
+        this.serviceMeta = serviceMeta;
     }
+
 
     public String getHost() {
         return address.getHost();
@@ -189,12 +193,24 @@ public class RegisterMeta {
         // 版本信息
         private String version;
 
+        XContentBuilder xContentBuilder;
+
+
+        String type;
+
+        String index;
+
+
+
         public ServiceMeta() {}
 
-        public ServiceMeta(String group, String serviceProviderName, String version) {
+        public ServiceMeta(String group, String serviceProviderName, String version,XContentBuilder xContentBuilder,String type,String index) {
             this.group = group;
             this.serviceProviderName = serviceProviderName;
             this.version = version;
+            this.xContentBuilder = xContentBuilder;
+            this.type = type;
+            this.index = index;
         }
 
         public String getGroup() {
@@ -230,7 +246,10 @@ public class RegisterMeta {
 
             return !(group != null ? !group.equals(that.group) : that.group != null)
                     && !(serviceProviderName != null ? !serviceProviderName.equals(that.serviceProviderName) : that.serviceProviderName != null)
-                    && !(version != null ? !version.equals(that.version) : that.version != null);
+                    && !(version != null ? !version.equals(that.version) : that.version != null)
+                    &&!(xContentBuilder!=null?!xContentBuilder.equals(that.xContentBuilder):that.xContentBuilder!=null)
+                    &&!(type!=null?!type.equals(that.type):that.type!=null)
+                    &&!(index!=null?!index.equals(that.index):that.type!=null);
         }
 
         @Override
@@ -248,6 +267,30 @@ public class RegisterMeta {
                     ", serviceProviderName='" + serviceProviderName + '\'' +
                     ", version='" + version + '\'' +
                     '}';
+        }
+
+        public XContentBuilder getxContentBuilder() {
+            return xContentBuilder;
+        }
+
+        public void setxContentBuilder(XContentBuilder xContentBuilder) {
+            this.xContentBuilder = xContentBuilder;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getIndex() {
+            return index;
+        }
+
+        public void setIndex(String index) {
+            this.index = index;
         }
     }
 }
