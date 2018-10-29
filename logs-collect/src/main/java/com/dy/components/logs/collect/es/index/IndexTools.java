@@ -1,5 +1,7 @@
 package com.dy.components.logs.collect.es.index;
+import com.dy.components.logs.api.log.AbstractLog;
 import com.dy.components.logs.api.log.LogerBuilder;
+import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
@@ -28,15 +30,22 @@ public class IndexTools{
 
     static final String defaultLogSetIndex = "log_set_index";
 
-    static final String defaultLogSetIndexId = "100002";
-
-
-    XContentBuilder builder;
-    LogerBuilder logerBuilder;
+   ;
 
     public IndexTools(RestHighLevelClient client){
 
         this.client = client;
+    }
+
+
+    public IndexRequest getIndexRequest(String className,String indexId){
+
+        if (checkIndexExist(defaultManagerIndex,className)){
+            return new IndexRequest(defaultLogSetIndex, className, indexId);
+        }else {
+            return null;
+
+        }
     }
 
 
@@ -51,9 +60,7 @@ public class IndexTools{
      * 创建管理 索引
      */
     public void ManagerIndexBuilder(XContentBuilder newBuilder){
-
-        this.builder = newBuilder;
-        buildDefauletManagerIndex();
+        buildDefauletManagerIndex(newBuilder);
 
     }
 
@@ -61,49 +68,35 @@ public class IndexTools{
     /**
      * 创建日志索引
      */
-    public void LogIndexBuilder(LogerBuilder logerBuilder){
-        this.logerBuilder = logerBuilder;
-        LogIndexBuilder(logerBuilder);
-    }
-    /**
-     * 创建日志索引
-     */
-    public void LogIndexBuilder(){
-        LogIndexBuilder(null);
+    public void LogIndexBuilder(XContentBuilder builder,String className,String indexId){
+       buildDefauletLogIndex(builder,className,indexId);
     }
 
 
     /**
      * 创建索引
      */
-    private void buildDefauletLogIndex(){
+    private void buildDefauletLogIndex(XContentBuilder builder,String className,String indexId){
+        try {
+            if(builder!=null){
+                if(!checkIndexExist(defaultLogSetIndex,className)){
+                    IndexRequest indexRequest = new IndexRequest(defaultLogSetIndex, className, indexId);
 
-        if(logerBuilder!=null){
-            if(!checkIndexExist(defaultLogSetIndex,logerBuilder.getType())){
-                IndexRequest indexRequest = new IndexRequest(defaultManagerIndex, logerBuilder.getType(), String.valueOf(logerBuilder.getId()));
 
+                    indexRequest.source(builder);
 
-
-                XContentBuilder builder =logerBuilder.builder();
-
-                indexRequest.source(builder);
-
-                try {
                     this.client.index(indexRequest,RequestOptions.DEFAULT);
-                }catch (IOException e){
-                    e.printStackTrace();
+
                 }
-
-
-
-
             }
+        }catch (IOException e){
+            e.printStackTrace();
         }
 
     }
 
 
-    private void  buildDefauletManagerIndex(){
+    private void  buildDefauletManagerIndex( XContentBuilder builder){
         /**
          * 判断索引是否存在
          */
@@ -208,11 +201,6 @@ public class IndexTools{
 
             return null;
         }
-
-
-
-
-
 
     }
 

@@ -67,6 +67,7 @@ public abstract class DefaultNettyServer implements IRegeditServer {
         bootstrap = new ServerBootstrap().group(boss, worker);
         bootstrap.channelFactory(SocketChannelProvider.JAVA_NIO_ACCEPTOR);
 
+
         bootstrap.childHandler(new ChannelInitializer<Channel>() {
 
             @Override
