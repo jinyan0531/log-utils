@@ -15,6 +15,19 @@ public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
 
     String url;
 
+    String sysId;
+
+    String userId;
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -23,11 +36,29 @@ public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
         this.url = url;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    @Override
+    public String getSysId() {
+        return sysId;
+    }
+
+    @Override
+    public void setSysId(String sysId) {
+        this.sysId = sysId;
+    }
+
+
     @Override
     public String toString() {
         return "DyMvcPorfarmaceTransactionCollectLog{" +
                 "url='" + url + '\'' +
+                ", sysId='" + sysId + '\'' +
+                ", userId='" + userId + '\'' +
                 ", version='" + version + '\'' +
+                ", sysId='" + sysId + '\'' +
                 ", durationTime=" + durationTime +
                 ", endTime=" + endTime +
                 ", version='" + getVersion() + '\'' +
@@ -46,6 +77,7 @@ public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
                 ", end=" + isEnd() +
                 ", first=" + isFirst() +
                 ", messageTempletId=" + getMessageTempletId() +
+                ", XConBuilder='" + getXConBuilder() + '\'' +
                 '}';
     }
 
@@ -61,6 +93,16 @@ public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
                 try {
 
                     getBuilder().startObject("url");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
+                    getBuilder().startObject("userId");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
+                    getBuilder().startObject("sysId");
                     {
                         getBuilder().field("type", "keyword");
                     }

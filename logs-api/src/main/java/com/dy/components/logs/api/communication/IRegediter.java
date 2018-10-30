@@ -13,15 +13,6 @@ public interface IRegediter {
      */
 
     void doRegedit(String host, int port,String user,String password);
-    /**
-     * @param host
-     * @param port
-     * @param group
-     * @param serviceProviderName
-     * @param version
-     * @return
-     */
-    void doRegedit(String host, int port,String user,String password, String group, String serviceProviderName, String version);
 
     /**
      * 创建Channel

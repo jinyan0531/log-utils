@@ -29,12 +29,6 @@ public   class DefaultRabbitRegediter implements IRegediter {
     @Override
     public void doRegedit(String host, int port,String user,String password) {
 
-        doRegedit(host,port,user,password,null,null,null);
-
-    }
-
-    @Override
-    public void doRegedit(String host, int port,String user,String password, String group, String serviceProviderName, String version) {
         factory.setHost(host);
         factory.setPort(port);
         factory.setUsername(user);
@@ -46,9 +40,9 @@ public   class DefaultRabbitRegediter implements IRegediter {
         factory.setAutomaticRecoveryEnabled(true); //设置网络异常重连
         factory.setNetworkRecoveryInterval(2000);
         factory.setTopologyRecoveryEnabled(true);//设置重新声明交换器，队列等信息。
-        registerMeta.setHost(host);
-        registerMeta.setPort(port);
+
     }
+
 
     @Override
     public AbstractChannel getChannel() {

@@ -15,6 +15,32 @@ public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
     }
     String sql;
 
+    String sysId;
+
+    String userId;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    @Override
+    public String getSysId() {
+        return sysId;
+    }
+
+    @Override
+    public void setSysId(String sysId) {
+        this.sysId = sysId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getSql() {
         return sql;
     }
@@ -27,7 +53,10 @@ public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
     public String toString() {
         return "DySqlPorfarmaceTransactionCollectLog{" +
                 "sql='" + sql + '\'' +
+                ", sysId='" + sysId + '\'' +
+                ", userId='" + userId + '\'' +
                 ", version='" + version + '\'' +
+                ", sysId='" + sysId + '\'' +
                 ", durationTime=" + durationTime +
                 ", endTime=" + endTime +
                 ", version='" + getVersion() + '\'' +
@@ -46,9 +75,9 @@ public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
                 ", end=" + isEnd() +
                 ", first=" + isFirst() +
                 ", messageTempletId=" + getMessageTempletId() +
+                ", XConBuilder='" + getXConBuilder() + '\'' +
                 '}';
     }
-
 
     public  LogerBuilder toXContentBuilder(XContentBuilder builder) {
 
@@ -61,7 +90,17 @@ public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
             public XContentBuilder builder() {
 
                 try {
+                    getBuilder().startObject("sysId");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
 
+                    getBuilder().startObject("userId");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
                     getBuilder().startObject("sql");
                     {
                         getBuilder().field("type", "keyword");

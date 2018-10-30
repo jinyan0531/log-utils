@@ -71,9 +71,6 @@ public abstract class DefaultNettyRegediter implements IRegediter {
         host = addr.getHostAddress().toString(); //获取本机ip
         regeditMeta = new RegisterMeta();
         regeditMeta.getServiceMeta().setGroup(group);
-        regeditMeta.setHost(host);
-        regeditMeta.setServiceProviderName(serviceProviderName);
-        regeditMeta.setVersion(version);
     }
 
 
@@ -171,7 +168,6 @@ public abstract class DefaultNettyRegediter implements IRegediter {
 
 
             communiObject.setType(ProtocolEnum.REGEDIT);
-            regeditMeta.setHost(host);
             communiObject.setRegeditMeta(regeditMeta);
             ctx.writeAndFlush(communiObject);
         }

@@ -5,6 +5,7 @@ import com.dy.components.logs.api.communication.RegisterMeta;
 import java.io.Serializable;
 
 public class Message  implements Serializable {
+    private static final long serialVersionUID = -1257509482741174279L;
     ProtocolEnum type;
 
     RegisterMeta regeditMeta;

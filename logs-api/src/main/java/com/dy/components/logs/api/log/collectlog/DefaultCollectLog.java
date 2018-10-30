@@ -3,6 +3,7 @@ package com.dy.components.logs.api.log.collectlog;
 import com.dy.components.logs.api.log.AbstractLog;
 import com.dy.components.logs.api.log.ILog;
 import com.dy.components.logs.api.log.LogerBuilder;
+import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
  * @author fufeijian newone1997@gmail.com
  */
 public class DefaultCollectLog extends AbstractLog implements ILog {
-    private static final long serialVersionUID = -4276291783328905418L;
+    public static final long serialVersionUID = 4276291783328905418L;
     /**
      * 唯一ID
      */
@@ -168,7 +169,7 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
     }
 
 
-    public  XContentBuilder getXConBuilder(){
+    public  String getXConBuilder(){
         try {
             XContentBuilder builder = XContentFactory.jsonBuilder();
 
@@ -190,7 +191,7 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
                 builder.endObject();
             }
             builder.endObject();
-            return builder;
+            return Strings.toString(builder);
         } catch (IOException e) {
             e.printStackTrace();
         }

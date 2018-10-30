@@ -23,7 +23,8 @@ public class RabbitChannel  extends AbstractChannel {
     public void send(Message message) {
         try {
             channel.queueDeclare(DEFAULT_RABBIT_QUEUE, true, false, false, null);
-            channel.basicPublish("", DEFAULT_RABBIT_QUEUE, MessageProperties.TEXT_PLAIN, ProtostuffUtil.serializer(message));
+            byte[] bytes = ProtostuffUtil.serializer(message);
+            channel.basicPublish("", DEFAULT_RABBIT_QUEUE, MessageProperties.TEXT_PLAIN, bytes);
 
         } catch (IOException e) {
             e.printStackTrace();
