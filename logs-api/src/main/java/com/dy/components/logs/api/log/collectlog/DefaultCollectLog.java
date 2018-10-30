@@ -63,14 +63,6 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
     String logType = "DefaultCollectLog";
 
 
-    public DefaultCollectLog(String message,long messageTempletId,LogId firstLogId,LogId parentLogId,LogId logId){
-        this.message = message;
-        this.firstLogId = firstLogId;
-        this.parentLogId = parentLogId;
-        this.logId = logId;
-        this.isCompleted = false;
-        this.messageTempletId = messageTempletId;
-    }
 
 
     public DefaultCollectLog(){}
@@ -169,21 +161,21 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
     }
 
 
-    public  String getXConBuilder(){
+    public  String buildXConBuilder(){
         try {
             XContentBuilder builder = XContentFactory.jsonBuilder();
 
-            LogerBuilder appenduilder = toXContentBuilder(builder);
+            //LogerBuilder appenduilder = toXContentBuilder(builder);
             builder.startObject();
             {
-                builder.startObject(appenduilder.getType());
+                builder.startObject(getLogType());
                 {
                     builder.startObject("properties");
                     {
 
-                        if(appenduilder!=null){
-                            appenduilder.builder();
-                        }
+                       // if(appenduilder!=null){
+                            toXContentBuilder(builder).builder();
+                        //}
 
                     }
                     builder.endObject();
@@ -208,60 +200,60 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
                 try {
 
                     //属性
-                    builder.startObject("message");
+                    getBuilder().startObject("message");
                     {
-                        builder.field("type", "keyword");
+                        getBuilder().field("type", "keyword");
                     }
-                    builder.endObject();
+                    getBuilder().endObject();
 
                     //属性
-                    builder.startObject("messageTempletId");
+                    getBuilder().startObject("messageTempletId");
                     {
-                        builder.field("type", "long");
+                        getBuilder().field("type", "long");
                     }
-                    builder.endObject();
+                    getBuilder().endObject();
 
                     //结束标记
 
-                    builder.startObject("isEnd");
+                    getBuilder().startObject("isEnd");
                     {
-                        builder.field("type", "boolean");
+                        getBuilder().field("type", "boolean");
                     }
-                    builder.endObject();
+                    getBuilder().endObject();
 
                     //起始标记
-                    builder.startObject("isFirst");
+                    getBuilder().startObject("isFirst");
                     {
-                        builder.field("type", "boolean");
+                        getBuilder().field("type", "boolean");
                     }
-                    builder.endObject();
+                    getBuilder().endObject();
 
                     //类型
-                    builder.startObject("logType");
+                    getBuilder().startObject("logType");
                     {
-                        builder.field("type", "keyword");
+                        getBuilder().field("type", "keyword");
                     }
-                    builder.endObject();
+                    getBuilder().endObject();
 
-                    builder.startObject("logId");
+                    getBuilder().startObject("logId");
                     {
-                        LoginIdBuild(builder);
-                    }
-
-                    builder.endObject();
-                    builder.startObject("parentLogId");
-                    {
-                        LoginIdBuild(builder);
+                        LoginIdBuild(getBuilder());
                     }
 
-                    builder.endObject();
-                    builder.startObject("firstLogId");
+                    getBuilder().endObject();
+                    getBuilder().startObject("parentLogId");
                     {
-                        LoginIdBuild(builder);
+                        LoginIdBuild(getBuilder());
                     }
 
-                    builder.endObject();
-                    return builder;
+                    getBuilder().endObject();
+                    getBuilder().startObject("firstLogId");
+                    {
+                        LoginIdBuild(getBuilder());
+                    }
+
+                    getBuilder().endObject();
+                    return getBuilder();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

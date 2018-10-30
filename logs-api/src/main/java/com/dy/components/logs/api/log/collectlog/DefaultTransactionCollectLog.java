@@ -11,9 +11,7 @@ public class DefaultTransactionCollectLog extends  DefaultCollectLog {
     private static final long serialVersionUID = 6814636162611128034L;
 
 
-    public DefaultTransactionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
-        super(message, messageTempletId, firstLogId, parentLogId, logId);
-    }
+
 
     String parames;
 

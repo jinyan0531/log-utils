@@ -8,9 +8,7 @@ import java.io.IOException;
 public class DefaultEventCollectLog extends  DefaultCollectLog {
     private static final long serialVersionUID = 2691092350851782556L;
 
-    public DefaultEventCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
-        super(message, messageTempletId, firstLogId, parentLogId, logId);
-    }
+
 
     public LogerBuilder toXContentBuilder(XContentBuilder builder){
 

@@ -9,16 +9,24 @@ import java.io.IOException;
 public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransactionCollectLog {
     private static final long serialVersionUID = 3966511838728130280L;
 
-    public DyMvcPorfarmaceTransactionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
-        super(message, messageTempletId, firstLogId, parentLogId, logId);
-    }
+
 
     String url;
 
-    String sysId;
 
     String userId;
 
+    String logType = "DyMvcPorfarmaceTransactionCollectLog";
+
+    @Override
+    public String getLogType() {
+        return logType;
+    }
+
+    @Override
+    public void setLogType(String logType) {
+        this.logType = logType;
+    }
 
     public String getUserId() {
         return userId;
@@ -41,43 +49,13 @@ public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
     }
 
     @Override
-    public String getSysId() {
-        return sysId;
-    }
-
-    @Override
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
-    }
-
-
-    @Override
     public String toString() {
         return "DyMvcPorfarmaceTransactionCollectLog{" +
                 "url='" + url + '\'' +
-                ", sysId='" + sysId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", version='" + version + '\'' +
-                ", sysId='" + sysId + '\'' +
                 ", durationTime=" + durationTime +
                 ", endTime=" + endTime +
-                ", version='" + getVersion() + '\'' +
-                ", durationTime=" + getDurationTime() +
-                ", endTime=" + getEndTime() +
-                ", parames='" + getParames() + '\'' +
-                ", name='" + getName() + '\'' +
-                ", startTime=" + getStartTime() +
-                ", childrenLogs=" + getChildrenLogs() +
-                ", logId=" + getLogId() +
-                ", parentLogId=" + getParentLogId() +
-                ", firstLogId=" + getFirstLogId() +
-                ", message='" + getMessage() + '\'' +
-                ", completed=" + isCompleted() +
-                ", logType='" + getLogType() + '\'' +
-                ", end=" + isEnd() +
-                ", first=" + isFirst() +
-                ", messageTempletId=" + getMessageTempletId() +
-                ", XConBuilder='" + getXConBuilder() + '\'' +
                 '}';
     }
 
@@ -102,16 +80,7 @@ public class DyMvcPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
                         getBuilder().field("type", "keyword");
                     }
                     getBuilder().endObject();
-                    getBuilder().startObject("sysId");
-                    {
-                        getBuilder().field("type", "keyword");
-                    }
-                    getBuilder().endObject();
-                    getBuilder().startObject("endTime");
-                    {
-                        getBuilder().field("type", "long");
-                    }
-                    getBuilder().endObject();
+
                     return getBuilder();
                 } catch (IOException e) {
                     e.printStackTrace();

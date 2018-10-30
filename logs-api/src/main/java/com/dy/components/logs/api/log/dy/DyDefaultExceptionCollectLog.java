@@ -11,9 +11,7 @@ import java.util.Arrays;
 public class DyDefaultExceptionCollectLog extends DefaultExceptionCollectLog {
     private static final long serialVersionUID = 6633710535999426236L;
 
-    public DyDefaultExceptionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
-        super(message, messageTempletId, firstLogId, parentLogId, logId);
-    }
+
     String version;
 
     public String getVersion() {

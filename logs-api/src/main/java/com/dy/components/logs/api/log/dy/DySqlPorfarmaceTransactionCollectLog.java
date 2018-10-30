@@ -10,27 +10,24 @@ import java.io.IOException;
 public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransactionCollectLog{
     private static final long serialVersionUID = 8432490857419296019L;
 
-    public DySqlPorfarmaceTransactionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
-        super(message, messageTempletId, firstLogId, parentLogId, logId);
-    }
+
     String sql;
 
-    String sysId;
-
     String userId;
+    String logType = "DySqlPorfarmaceTransactionCollectLog";
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
 
     @Override
-    public String getSysId() {
-        return sysId;
+    public String getLogType() {
+        return logType;
     }
 
     @Override
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
+    public void setLogType(String logType) {
+        this.logType = logType;
     }
 
     public String getUserId() {
@@ -53,10 +50,8 @@ public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
     public String toString() {
         return "DySqlPorfarmaceTransactionCollectLog{" +
                 "sql='" + sql + '\'' +
-                ", sysId='" + sysId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", version='" + version + '\'' +
-                ", sysId='" + sysId + '\'' +
                 ", durationTime=" + durationTime +
                 ", endTime=" + endTime +
                 ", version='" + getVersion() + '\'' +
@@ -75,7 +70,6 @@ public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
                 ", end=" + isEnd() +
                 ", first=" + isFirst() +
                 ", messageTempletId=" + getMessageTempletId() +
-                ", XConBuilder='" + getXConBuilder() + '\'' +
                 '}';
     }
 
@@ -97,11 +91,6 @@ public class DySqlPorfarmaceTransactionCollectLog extends  DyPorfarmaceTransacti
                     getBuilder().endObject();
 
                     getBuilder().startObject("userId");
-                    {
-                        getBuilder().field("type", "keyword");
-                    }
-                    getBuilder().endObject();
-                    getBuilder().startObject("sql");
                     {
                         getBuilder().field("type", "keyword");
                     }

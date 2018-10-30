@@ -9,18 +9,24 @@ import java.io.IOException;
 public class DyPorfarmaceTransactionCollectLog extends DefaulPorfarmaceTransactionCollectLog {
     private static final long serialVersionUID = 4713932672146332392L;
 
-    public DyPorfarmaceTransactionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
-        super(message, messageTempletId, firstLogId, parentLogId, logId);
-    }
     String version;
 
-    String sysId;
 
     public String getVersion() {
         return version;
     }
 
+    String logType = "DyMvcPorfarmaceTransactionCollectLog";
 
+    @Override
+    public String getLogType() {
+        return logType;
+    }
+
+    @Override
+    public void setLogType(String logType) {
+        this.logType = logType;
+    }
 
     public void setVersion(String version) {
         this.version = version;
@@ -31,18 +37,11 @@ public class DyPorfarmaceTransactionCollectLog extends DefaulPorfarmaceTransacti
         return serialVersionUID;
     }
 
-    public String getSysId() {
-        return sysId;
-    }
-
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
-    }
-
     @Override
     public String toString() {
         return "DyPorfarmaceTransactionCollectLog{" +
-                "sysId='" + sysId + '\'' +
+                "version='" + version + '\'' +
+                ", logType='" + logType + '\'' +
                 ", durationTime=" + durationTime +
                 ", endTime=" + endTime +
                 ", durationTime=" + getDurationTime() +
@@ -56,11 +55,9 @@ public class DyPorfarmaceTransactionCollectLog extends DefaulPorfarmaceTransacti
                 ", firstLogId=" + getFirstLogId() +
                 ", message='" + getMessage() + '\'' +
                 ", completed=" + isCompleted() +
-                ", logType='" + getLogType() + '\'' +
                 ", end=" + isEnd() +
                 ", first=" + isFirst() +
                 ", messageTempletId=" + getMessageTempletId() +
-                ", XConBuilder='" + getXConBuilder() + '\'' +
                 '}';
     }
 
@@ -76,12 +73,6 @@ public class DyPorfarmaceTransactionCollectLog extends DefaulPorfarmaceTransacti
                 try {
 
                     getBuilder().startObject("version");
-                    {
-                        getBuilder().field("type", "keyword");
-                    }
-                    getBuilder().endObject();
-
-                    getBuilder().startObject("sysId");
                     {
                         getBuilder().field("type", "keyword");
                     }

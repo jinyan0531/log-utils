@@ -13,9 +13,7 @@ import java.util.Map;
 public class DefaultExceptionCollectLog extends  DefaultCollectLog{
     private static final long serialVersionUID = 569930694337990552L;
 
-    public DefaultExceptionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
-        super(message,messageTempletId, firstLogId, parentLogId, logId);
-    }
+
 
     /**
      * 方法参数

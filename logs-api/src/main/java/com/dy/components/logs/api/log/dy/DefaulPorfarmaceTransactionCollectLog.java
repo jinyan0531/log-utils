@@ -10,9 +10,6 @@ import java.io.IOException;
 public class DefaulPorfarmaceTransactionCollectLog extends DefaultTransactionCollectLog {
     private static final long serialVersionUID = 3207941614446848040L;
 
-    public DefaulPorfarmaceTransactionCollectLog(String message, long messageTempletId, LogId firstLogId, LogId parentLogId, LogId logId) {
-        super(message, messageTempletId, firstLogId, parentLogId, logId);
-    }
 
     long durationTime;
 
