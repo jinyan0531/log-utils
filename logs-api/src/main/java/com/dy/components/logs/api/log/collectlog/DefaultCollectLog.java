@@ -31,7 +31,7 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
     LogId firstLogId;
 
 
-
+    String indexVersion;
 
     /**
      * 内容
@@ -62,12 +62,21 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
      */
     String logType = "DefaultCollectLog";
 
-
+    public ILog findUncompleted(){
+        if(isCompleted=false)return null;
+        else return this;
+    }
 
 
     public DefaultCollectLog(){}
 
+    public String getIndexVersion() {
+        return indexVersion;
+    }
 
+    public void setIndexVersion(String indexVersion) {
+        this.indexVersion = indexVersion;
+    }
 
     public void end(){
         this.isCompleted =true;
@@ -193,7 +202,7 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
 
     @Override
     public LogerBuilder toXContentBuilder(XContentBuilder builder) {
-        LogerBuilder logerBuilder = new LogerBuilder(builder,this.getClass().getSimpleName(),serialVersionUID) {
+        LogerBuilder logerBuilder = new LogerBuilder(builder,this.getClass().getSimpleName(),serialVersionUID,getIndexVersion()) {
             @Override
             public XContentBuilder builder() {
 
@@ -213,6 +222,12 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
                     }
                     getBuilder().endObject();
 
+
+                    getBuilder().startObject("indexVersion");
+                    {
+                        getBuilder().field("type", "keyword");
+                    }
+                    getBuilder().endObject();
                     //结束标记
 
                     getBuilder().startObject("isEnd");
@@ -247,6 +262,8 @@ public class DefaultCollectLog extends AbstractLog implements ILog {
                     }
 
                     getBuilder().endObject();
+
+
                     getBuilder().startObject("firstLogId");
                     {
                         LoginIdBuild(getBuilder());

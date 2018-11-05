@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="logs-api" />
+        <module name="logs-collect" />
+        <module name="logs-resolve" />
+        <module name="logs-utils" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="logs" target="1.8" />
+      <module name="logs-api" target="1.8" />
+      <module name="logs-collect" target="1.8" />
+      <module name="logs-resolve" target="1.8" />
+      <module name="logs-utils" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

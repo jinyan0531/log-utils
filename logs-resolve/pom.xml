@@ -11,6 +11,12 @@
     <version>${logs.resolve.version}</version>
     <name>logs-resolve ${logs.resolve.version}</name>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.dy.components</groupId>
+            <artifactId>logs-api</artifactId>
+            <version>${logs.api.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

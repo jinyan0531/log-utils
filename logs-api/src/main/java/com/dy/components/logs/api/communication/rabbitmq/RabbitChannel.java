@@ -9,6 +9,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.MessageProperties;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 public class RabbitChannel  extends AbstractChannel {
 
@@ -25,8 +26,11 @@ public class RabbitChannel  extends AbstractChannel {
             channel.queueDeclare(DEFAULT_RABBIT_QUEUE, true, false, false, null);
             byte[] bytes = ProtostuffUtil.serializer(message);
             channel.basicPublish("", DEFAULT_RABBIT_QUEUE, MessageProperties.TEXT_PLAIN, bytes);
-
+            if(channel.isOpen())
+             channel.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
             e.printStackTrace();
         }
     }

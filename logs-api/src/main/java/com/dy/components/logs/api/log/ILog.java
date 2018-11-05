@@ -23,7 +23,7 @@ public interface ILog {
      */
     DefaultCollectLog assembleLogs(DefaultCollectLog parent,DefaultCollectLog child);
 
-
+    public ILog findUncompleted();
     /**
      *
      * @param bytes
@@ -32,5 +32,9 @@ public interface ILog {
     DefaultCollectLog readLogsFromBytes(byte[] bytes);
 
     public LogerBuilder toXContentBuilder(XContentBuilder builder);
+
+    public  String buildXConBuilder();
+
+    public String getIndexVersion();
 
 }

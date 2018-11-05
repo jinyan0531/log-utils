@@ -9,10 +9,12 @@ public abstract class LogerBuilder {
 
     XContentBuilder builder;
     String type;
+    String indexVersion;
     long id;
 
 
-    public LogerBuilder(XContentBuilder builder, String type, long id){
+    public LogerBuilder(XContentBuilder builder, String type, long id,String indexVersion){
+        this.indexVersion=indexVersion;
         this.builder = builder;
         this.type = type;
         this.id = id;

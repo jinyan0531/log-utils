@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/logs.iml" filepath="$PROJECT_DIR$/logs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/logs-api/logs-api.iml" filepath="$PROJECT_DIR$/logs-api/logs-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/logs-collect/logs-collect.iml" filepath="$PROJECT_DIR$/logs-collect/logs-collect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/logs-resolve/logs-resolve.iml" filepath="$PROJECT_DIR$/logs-resolve/logs-resolve.iml" />
+      <module fileurl="file://$PROJECT_DIR$/logs-utils/logs-utils.iml" filepath="$PROJECT_DIR$/logs-utils/logs-utils.iml" />
+    </modules>
+  </component>
+</project>

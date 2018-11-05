@@ -16,6 +16,9 @@ public class Content{
 
     long indexId;
 
+    String indexVersion;
+
+
     byte[] collectLog;
 
     public String getLogType() {
@@ -24,6 +27,14 @@ public class Content{
 
     public void setLogType(String logType) {
         this.logType = logType;
+    }
+
+    public String getIndexVersion() {
+        return indexVersion;
+    }
+
+    public void setIndexVersion(String indexVersion) {
+        this.indexVersion = indexVersion;
     }
 
     public String getClassName() {
@@ -40,6 +51,7 @@ public class Content{
                 "logType='" + logType + '\'' +
                 ", className='" + className + '\'' +
                 ", indexId=" + indexId +
+                ", indexVersion='" + indexVersion + '\'' +
                 ", collectLog=" + Arrays.toString(collectLog) +
                 '}';
     }

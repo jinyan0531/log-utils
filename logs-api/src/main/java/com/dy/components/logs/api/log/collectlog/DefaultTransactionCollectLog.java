@@ -1,5 +1,6 @@
 package com.dy.components.logs.api.log.collectlog;
 
+import com.dy.components.logs.api.log.ILog;
 import com.dy.components.logs.api.log.LogerBuilder;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
@@ -20,10 +21,12 @@ public class DefaultTransactionCollectLog extends  DefaultCollectLog {
 
     long startTime;
 
-    List<DefaultCollectLog> childrenLogs;
+    List<ILog> childrenLogs;
 
     public DefaultTransactionCollectLog() {
     }
+
+
 
     public String getParames() {
         return parames;
@@ -49,11 +52,11 @@ public class DefaultTransactionCollectLog extends  DefaultCollectLog {
         this.startTime = startTime;
     }
 
-    public List<DefaultCollectLog> getChildrenLogs() {
+    public List<ILog> getChildrenLogs() {
         return childrenLogs;
     }
 
-    public void setChildrenLogs(List<DefaultCollectLog> childrenLogs) {
+    public void setChildrenLogs(List<ILog> childrenLogs) {
         this.childrenLogs = childrenLogs;
     }
 
@@ -97,7 +100,7 @@ public class DefaultTransactionCollectLog extends  DefaultCollectLog {
 
         XContentBuilder supperBuilder  = super.toXContentBuilder(builder).builder();
 
-        LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID) {
+        LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID,getIndexVersion()) {
             @Override
             public XContentBuilder builder() {
 
@@ -120,24 +123,24 @@ public class DefaultTransactionCollectLog extends  DefaultCollectLog {
                     }
                     getBuilder().endObject();
 
-                    if(childrenLogs!=null) {
-
-                        int length = childrenLogs.size();
-                        if(length>0) {
-                            getBuilder().startObject("childrenLogs");
-                            {
-                                getBuilder().field("type", "nested");
-                                getBuilder().startObject("properties");
-                                {
-                                    for (int i = 0; i < length; i++) {
-                                        childrenLogs.get(i).toXContentBuilder(getBuilder());
-                                    }
-                                }
-                                getBuilder().endObject();
-                            }
-                            getBuilder().endObject();
-                        }
-                    }
+//                    if(childrenLogs!=null) {
+//
+//                        int length = childrenLogs.size();
+//                        if(length>0) {
+//                            getBuilder().startObject("childrenLogs");
+//                            {
+//                                getBuilder().field("type", "nested");
+//                                getBuilder().startObject("properties");
+//                                {
+//                                    for (int i = 0; i < length; i++) {
+//                                        childrenLogs.get(i).toXContentBuilder(getBuilder());
+//                                    }
+//                                }
+//                                getBuilder().endObject();
+//                            }
+//                            getBuilder().endObject();
+//                        }
+//                    }
                     return getBuilder();
                 } catch (IOException e) {
                     e.printStackTrace();

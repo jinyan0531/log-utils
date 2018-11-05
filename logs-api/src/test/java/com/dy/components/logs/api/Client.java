@@ -22,10 +22,6 @@ public class Client extends DefaultNettyRegediter {
 
     }
 
-    @Override
-    public void doRegedit(String host, int port, String user, String password, String group, String serviceProviderName, String version) {
-
-    }
 
     @Override
     public RegisterMeta getRegisterMeta() {

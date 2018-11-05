@@ -56,7 +56,7 @@ public class DefaulPorfarmaceTransactionCollectLog extends DefaultTransactionCol
 
         XContentBuilder supperBuilder  = super.toXContentBuilder(builder).builder();
 
-        LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID) {
+        LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID,getIndexVersion()) {
             @Override
             public XContentBuilder builder() {
 

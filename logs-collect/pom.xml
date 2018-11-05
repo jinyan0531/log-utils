@@ -12,7 +12,10 @@
     <name>logs-collect ${logs.collect.version}</name>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
@@ -29,11 +32,7 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.dy.components</groupId>
-            <artifactId>logs-api</artifactId>
-            <version>${logs.utils.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
@@ -47,6 +46,17 @@
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.dy.components</groupId>
+            <artifactId>logs-api</artifactId>
+            <version>${logs.api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dy.components</groupId>
+            <artifactId>logs-utils</artifactId>
+            <version>${logs.utils.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>io.protostuff</groupId>

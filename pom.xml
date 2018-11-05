@@ -44,6 +44,16 @@
     <dependencyManagement>
         <dependencies>
 
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>4.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>1.8.10</version>
+            </dependency>
 
             <dependency>
                 <groupId>junit</groupId>
@@ -201,16 +211,17 @@
     </modules>
 
 
-    <!-- 这里是为了发布到MAVEN中央仓库所做的配置 -->
     <distributionManagement>
-        <snapshotRepository>
-            <id>luanjia-ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>luanjia-ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>yd-release</id>
+            <name>Nexus Release Repository</name>
+            <url>http://nexus.zjdywl.com/content/repositories/yd-release/</url>
         </repository>
+        <snapshotRepository>
+            <id>yd-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://nexus.zjdywl.com/content/repositories/yd-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <description>Alibaba JVM-Sandbox OpenSource Project</description>

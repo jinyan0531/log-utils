@@ -2,12 +2,18 @@ package com.dy.components.logs.collect.es.index;
 import com.dy.components.logs.api.log.AbstractLog;
 import com.dy.components.logs.api.log.LogerBuilder;
 import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
+import com.dy.components.logs.collect.es.exception.ElasticSearchException;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,17 +44,17 @@ public class IndexTools{
     }
 
 
-    public IndexRequest getIndexRequest(String className,String indexId){
 
-        if (checkIndexExist(defaultManagerIndex,className)){
-            return new IndexRequest(defaultLogSetIndex, className, indexId);
+
+    public IndexRequest getLogManagerRequest(){
+
+        if (checkIndexExist(defaultManagerIndex,defaultManagerIndexIdType)){
+            return new IndexRequest(defaultManagerIndex, defaultManagerIndexIdType, defaultManagerIndexId);
         }else {
             return null;
 
         }
     }
-
-
     /**
      * 创建管理 索引
      */
@@ -59,7 +65,7 @@ public class IndexTools{
     /**
      * 创建管理 索引
      */
-    public void ManagerIndexBuilder(XContentBuilder newBuilder){
+    public void ManagerIndexBuilder(String newBuilder){
         buildDefauletManagerIndex(newBuilder);
 
     }
@@ -68,22 +74,42 @@ public class IndexTools{
     /**
      * 创建日志索引
      */
-    public void LogIndexBuilder(XContentBuilder builder,String className,String indexId){
+    public void LogIndexBuilder(String builder,String className,String indexId){
        buildDefauletLogIndex(builder,className,indexId);
     }
 
+    public IndexRequest getLogIndexRequest(String builder,String className,String indexId,String indexVersion){
 
+        String indexName = className.toLowerCase()+"_"+indexVersion;
+
+        if(!checkIndexExist(indexName,className)) {
+            CreateIndexRequest request = new CreateIndexRequest(indexName);
+
+            request.mapping(className, builder, XContentType.JSON);
+            try {
+                CreateIndexResponse createIndexResponse = client.indices().create(request);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        IndexRequest indexRequest = new IndexRequest(indexName, className, indexId);
+
+        indexRequest.source(builder, XContentType.JSON);
+
+        return indexRequest;
+
+
+    }
     /**
      * 创建索引
      */
-    private void buildDefauletLogIndex(XContentBuilder builder,String className,String indexId){
+    private void buildDefauletLogIndex(String builder,String className,String indexId){
         try {
             if(builder!=null){
-                if(!checkIndexExist(defaultLogSetIndex,className)){
-                    IndexRequest indexRequest = new IndexRequest(defaultLogSetIndex, className, indexId);
+                if(!checkIndexExist(className,className)){
+                    IndexRequest indexRequest = new IndexRequest(className.toLowerCase(), className, indexId);
 
-
-                    indexRequest.source(builder);
+                    indexRequest.source(builder, XContentType.JSON);
 
                     this.client.index(indexRequest,RequestOptions.DEFAULT);
 
@@ -96,7 +122,7 @@ public class IndexTools{
     }
 
 
-    private void  buildDefauletManagerIndex( XContentBuilder builder){
+    private void  buildDefauletManagerIndex( String builder){
         /**
          * 判断索引是否存在
          */
@@ -108,7 +134,7 @@ public class IndexTools{
                 builder = DefaultBuilder.defaultManagerMapping();
             }
 
-            indexRequest.source(builder);
+            indexRequest.source(builder, XContentType.JSON);
 
             try {
                 this.client.index(indexRequest,RequestOptions.DEFAULT);
@@ -127,6 +153,7 @@ public class IndexTools{
         if(type!=null){
             request.types(type);
         }
+
         request.local(false);
         request.humanReadable(true);
         try {
@@ -140,13 +167,15 @@ public class IndexTools{
 
 
 
+
+
     private static class DefaultBuilder{
 
 
         final static  String DEFAULT_MANAGER_TYPE = "default_manager";
 
 
-        public static XContentBuilder  defaultManagerMapping(){
+        public static String  defaultManagerMapping(){
             try {
                 XContentBuilder builder = XContentFactory.jsonBuilder();
                 builder.startObject();
@@ -194,7 +223,9 @@ public class IndexTools{
                     builder.endObject();
                 }
                 builder.endObject();
-                return builder;
+
+
+                return Strings.toString(builder);
             } catch (IOException e) {
                 e.printStackTrace();
             }
