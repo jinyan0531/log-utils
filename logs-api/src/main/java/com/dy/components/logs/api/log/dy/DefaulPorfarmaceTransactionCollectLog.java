@@ -59,9 +59,7 @@ public class DefaulPorfarmaceTransactionCollectLog extends DefaultTransactionCol
         LogerBuilder logerBuilder = new LogerBuilder(supperBuilder,this.getClass().getSimpleName(),serialVersionUID,getIndexVersion()) {
             @Override
             public XContentBuilder builder() {
-
                 try {
-
                     getBuilder().startObject("durationTime");
                     {
                         getBuilder().field("type", "long");

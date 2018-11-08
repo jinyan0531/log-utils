@@ -32,7 +32,6 @@ public class DyPorfarmaceTransactionCollectLog extends DefaulPorfarmaceTransacti
         this.version = version;
     }
 
-
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

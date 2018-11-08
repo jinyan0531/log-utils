@@ -81,12 +81,8 @@ public class CRMESsearch {
     //汇总功能统计
     public List<ResourceClickCount> findResourceClickCount(String userId, long startTime, long endTime, long startCasttime, long endCastTime){
 
-        RestHighLevelClient restHighLevelClient = pool.getResource();
-
         RestHighLevelClient client =pool.getResource();
         SearchRequest searchRequest = new SearchRequest("dymvcporfarmacetransactioncollectlog_v1.0.0");
-
-
         /**
          * 类型选择
          */
@@ -97,7 +93,6 @@ public class CRMESsearch {
         if(endTime==0) {
             endTime = 1541140766086L;
         }
-
         if(userId!=null){
             useridQuery = QueryBuilders.matchQuery("userId",userId);
             allQuery.must(useridQuery);
@@ -108,7 +103,6 @@ public class CRMESsearch {
                 .includeLower(true)     // 包含上界
                 .includeUpper(true);      // 包含下届
         allQuery.must(timeRangeBuilder);
-
         if(endCastTime==0) {
             endCastTime = 9999999999999L;
         }
@@ -118,48 +112,33 @@ public class CRMESsearch {
                 .includeLower(true)     // 包含上界
                 .includeUpper(true);      // 包含下届
         allQuery.must(castRangeBuilder);
-
-
         allQuery.must(qb);
-
-
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-
-
         AggregationBuilder tb=  AggregationBuilders.terms("group_url").field("url").size(1000);
         sourceBuilder.aggregation(tb);
         sourceBuilder.query(allQuery);
         sourceBuilder.size(5).from(0);
-
-
         searchRequest.source(sourceBuilder);
-
         SearchResponse searchResponse = null;
         try {
             searchResponse = client.search(searchRequest);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Aggregations aggregations = searchResponse.getAggregations();
 
+        Aggregations aggregations = searchResponse.getAggregations();
         List<ResourceClickCount> list = new ArrayList<>();
         Terms byProvince = aggregations.get("group_url");
         for (Terms.Bucket bucket:byProvince.getBuckets()){
-            long value = bucket.getDocCount();
-
             ResourceClickCount resourceClickCount = new ResourceClickCount();
             resourceClickCount.setCount(bucket.getDocCount());
             resourceClickCount.setUrl((String) bucket.getKey());
             list.add(resourceClickCount);
         }
         return list;
-
     }
 
     public PageBean findClickDeail(String url, String userId, long startTime, long endTime, long startCasttime, long endCastTime , int pageNum, int pageSize){
-        RestHighLevelClient restHighLevelClient = pool.getResource();
-
-
 
         RestHighLevelClient client =pool.getResource();
         SearchRequest searchRequest = new SearchRequest("dymvcporfarmacetransactioncollectlog_v1.0.0");
@@ -211,7 +190,6 @@ public class CRMESsearch {
                 .includeUpper(true);      // 包含下届
         allQuery.must(castRangeBuilder);
 
-        int size = queryList.size();
 
         allQuery.must(qb);
 
@@ -228,8 +206,6 @@ public class CRMESsearch {
 
         sourceBuilder.size(pageSize);
 
-
-
         searchRequest.source(sourceBuilder);
 
         SearchResponse searchResponse = null;
@@ -238,15 +214,12 @@ public class CRMESsearch {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         //构建页面
-
         PageBean<ResourcesClickDeail> pageBean = new PageBean<>();
 
         pageBean.setCurrPage(pageNum);
         pageBean.setPageSize(pageSize);
         pageBean.setTotalCount(searchResponse.getHits().getTotalHits());
-
          SearchHits hits = searchResponse.getHits();
          List<ResourcesClickDeail> list = new ArrayList<>();
         for (SearchHit searchHit : hits) {

@@ -9,8 +9,6 @@ public class ResourcesClickDeail  {
     Date startTime;
     long castTime;
 
-
-
     public String getUserId() {
         return userId;
     }

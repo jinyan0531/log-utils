@@ -3,17 +3,13 @@ package com.dy.components.logs.api.profile;
 
 import com.dy.components.logs.api.communication.AbstractChannel;
 import com.dy.components.logs.api.communication.rabbitmq.DefaultRabbitRegediter;
-import com.dy.components.logs.api.log.collectlog.DefaultCollectLog;
-import com.dy.components.logs.api.log.collectlog.DefaultTransactionCollectLog;
 import com.dy.components.logs.api.log.collectlog.LogId;
 import com.dy.components.logs.api.log.dy.DyMvcPorfarmaceTransactionCollectLog;
-import com.dy.components.logs.api.log.dy.DyPorfarmaceTransactionCollectLog;
 import com.dy.components.logs.api.log.dy.DySqlPorfarmaceTransactionCollectLog;
 import com.dy.components.logs.api.protocol.Content;
 import com.dy.components.logs.api.protocol.Message;
 import com.dy.components.logs.api.protocol.ProtocolEnum;
 import com.dy.components.logs.utils.ProtostuffUtil;
-import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +29,33 @@ public final class Profiler  extends DefaultRabbitRegediter {
     //private static final ThreadLocal<DySqlPorfarmaceTransactionCollectLog> sqlEntryStack = new ThreadLocal<DySqlPorfarmaceTransactionCollectLog>();
     //private static final ThreadLocal<DyPorfarmaceTransactionCollectLog> pEntryStack = new ThreadLocal<DyPorfarmaceTransactionCollectLog>();
 
-     static String hostName;
+    Object newIndex;
+
+    public Object getNewIndex() {
+        return newIndex;
+    }
+
+    public void setNewIndex(Object newIndex) {
+        this.newIndex = newIndex;
+    }
+
+
+
+    Object dataBuilder;
+
+    public Object getDataBuilder() {
+        return dataBuilder;
+    }
+
+    public void setDataBuilder(Object dataBuilder) {
+        this.dataBuilder = dataBuilder;
+    }
+
+    public static String getIndexVersion() {
+        return indexVersion;
+    }
+
+    static String hostName;
 
      static  String ip;
 
@@ -141,14 +163,13 @@ public final class Profiler  extends DefaultRabbitRegediter {
             dySqlPorfarmaceTransactionCollectLog.setParentLogId(logId);
         }
         logger.info(dySqlPorfarmaceTransactionCollectLog.toString());
-
         AbstractChannel channel = rabbitMQClient.getChannel();
-
-
         channel.send(buildSqlMessage(dySqlPorfarmaceTransactionCollectLog));
     }
 
-
+    //异常信息
+    public static void enterError(Throwable e) {
+    }
     static Message buildSqlMessage(DySqlPorfarmaceTransactionCollectLog dySqlPorfarmaceTransactionCollectLog){
         Message message = new Message();
         message.setType(ProtocolEnum.CONTENT);
@@ -283,9 +304,6 @@ public final class Profiler  extends DefaultRabbitRegediter {
             return ip;
         }
     static class RabbitMQClient extends DefaultRabbitRegediter {
-
-
-
     }
 
 }

@@ -2,6 +2,7 @@ package com.dy.components.logs.api.result;
 
 public class ResourceClickCount {
     String url;
+
     long count;
 
     public String getUrl() {

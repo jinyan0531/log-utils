@@ -8,7 +8,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class DyDefaultExceptionCollectLog extends DefaultExceptionCollectLog {
+public class DyExceptionCollectLog extends DefaultExceptionCollectLog {
     private static final long serialVersionUID = 6633710535999426236L;
 
 
